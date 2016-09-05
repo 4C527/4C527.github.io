@@ -4,17 +4,41 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Jason Cheng的博客</title>
+  <title>TensorFlow调研报告（三）基于softmax回归实现MNIST识别 | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hiahia~~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jason Cheng的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="（Jason Cheng 原创，未经许可不可转载）
+3.1 基于softmax 回归实现MNIST手写数字识别3.1.1 MNIST简介&amp;#160; &amp;#160; &amp;#160; &amp;#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。&amp;#160; &amp;#160; &amp;#160; &amp;#160;它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图，图片">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow调研报告（三）基于softmax回归实现MNIST识别">
+<meta property="og:url" content="http://yoursite.com/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="hiahia~~">
+<meta property="og:description" content="（Jason Cheng 原创，未经许可不可转载）
+3.1 基于softmax 回归实现MNIST手写数字识别3.1.1 MNIST简介&amp;#160; &amp;#160; &amp;#160; &amp;#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。&amp;#160; &amp;#160; &amp;#160; &amp;#160;它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图，图片">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/0/0.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/1/1.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/2/2.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/3/3.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/4/4.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/16/2016-08-15%2015-35-01%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/17/2016-08-15%2015-35-33%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/18/2016-08-15%2015-36-02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/19/2016-08-15%2015-38-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/20/2016-08-15%2015-37-57%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/21/2016-08-15%2015-38-13%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/22/2016-08-15%2015-38-21%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/23/2016-08-15%2015-38-29%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/5/5.png ">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/24/2016-08-15%2015-39-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/25/2016-08-15%2015-39-15%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/26/2016-08-15%2015-39-24%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/27/2016-08-15%2015-39-40%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/28/2016-08-15%2015-40-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:updated_time" content="2016-09-05T13:53:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jason Cheng的博客">
-<meta name="twitter:description" content="hiahia~~">
+<meta name="twitter:title" content="TensorFlow调研报告（三）基于softmax回归实现MNIST识别">
+<meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
+3.1 基于softmax 回归实现MNIST手写数字识别3.1.1 MNIST简介&amp;#160; &amp;#160; &amp;#160; &amp;#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。&amp;#160; &amp;#160; &amp;#160; &amp;#160;它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图，图片">
+<meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/0/0.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
   
@@ -179,9 +203,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
-  
-    <article id="post-TensorFlow调研报告（三）基于softmax 回归实现MNIST识别" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-TensorFlow调研报告（三）基于softmax 回归实现MNIST识别" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/" class="article-date">
@@ -197,12 +219,23 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/">TensorFlow调研报告（三）基于softmax回归实现MNIST识别</a>
+    <h1 class="article-title" itemprop="name">
+      TensorFlow调研报告（三）基于softmax回归实现MNIST识别
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -253,216 +286,68 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/08/31/TensorFlow调研报告（二）环境配置及安装/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TensorFlow调研报告（二）环境配置及横向安装</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
 
 
 
 
-
-
-
-  
-    <article id="post-TensorFlow调研报告（二）环境配置及安装" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/31/TensorFlow调研报告（二）环境配置及安装/" class="article-date">
-  	<time datetime="2016-08-31T13:08:39.000Z" itemprop="datePublished">2016-08-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/31/TensorFlow调研报告（二）环境配置及安装/">TensorFlow调研报告（二）环境配置及横向安装</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>（Jason Cheng 原创，未经许可不可转载）</p>
-<h1 id="第二章-环境配置及安装"><a href="#第二章-环境配置及安装" class="headerlink" title="第二章 环境配置及安装"></a>第二章 环境配置及安装</h1><p>&#160; &#160; &#160; &#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlow支持Python，C/C++ 3种编程语言，但是部分API仅支持Python，因此本报告中的环境配置和示例代码均基于Python. TensorFlow支持Linux，Mac OS X 2种操作系统，由于Linux在当下编程环境中经常使用，因此本报告中的操作系统均指Ubuntu16.04LTS，最新版本的Ubuntu系统（本报告完成前）。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/08/31/TensorFlow调研报告（二）环境配置及安装/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（三）基于softmax 回归实现MNIST识别" data-title="TensorFlow调研报告（三）基于softmax回归实现MNIST识别" data-url="http://yoursite.com/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
 
-
-
-
-
-
-  
-    <article id="post-TensorFlow调研报告（一）简介及横向比较" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/30/TensorFlow调研报告（一）简介及横向比较/" class="article-date">
-  	<time datetime="2016-08-30T11:06:39.000Z" itemprop="datePublished">2016-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/30/TensorFlow调研报告（一）简介及横向比较/">TensorFlow调研报告（一）简介及横向比较</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>（Jason Cheng 原创，未经许可不可转载）</p>
-<h1 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p><p><br>&#160; &#160; &#160; &#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行了广泛的研究包括非监督学习、语言表示、图像分类模型和目标检测、视频分类、语音识别、序列预测、行人检测、强化学习等等。另外，超过50个Google 内部的团队和其他公司也已经和Google Brain 团队开展合作，在众多产品中部署了使用DistBelief 的深度神经网络，包括 Google Search、广告产品、语音识别系统、Google Photos、Google Maps 和街景、Google 翻译、YouTube 和很多其他的产品。   </p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/08/30/TensorFlow调研报告（一）简介及横向比较/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/14/hello-world/" class="article-date">
-  	<time datetime="2016-08-14T08:23:36.000Z" itemprop="datePublished">2016-08-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/14/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -486,8 +371,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
