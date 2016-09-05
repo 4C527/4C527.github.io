@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/26/2016-08-15%2015-39-24%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/27/2016-08-15%2015-39-40%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog3/28/2016-08-15%2015-40-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
-<meta property="og:updated_time" content="2016-09-05T13:53:24.000Z">
+<meta property="og:updated_time" content="2016-09-05T13:59:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow调研报告（三）基于softmax回归实现MNIST识别">
 <meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
@@ -241,7 +241,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>（Jason Cheng 原创，未经许可不可转载）</p>
-<h2 id="3-1-基于softmax-回归实现MNIST手写数字识别"><a href="#3-1-基于softmax-回归实现MNIST手写数字识别" class="headerlink" title="3.1 基于softmax 回归实现MNIST手写数字识别"></a>3.1 基于softmax 回归实现MNIST手写数字识别</h2><h3 id="3-1-1-MNIST简介"><a href="#3-1-1-MNIST简介" class="headerlink" title="3.1.1 MNIST简介"></a>3.1.1 MNIST简介</h3><p>&#160; &#160; &#160; &#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。<br>&#160; &#160; &#160; &#160;它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图，图片都被转成二进制放到了文件里面，用户可以直接从二进制文件中读取图片数据，进行数据预处理以及数据分析。本章主要基于MNIST这一经典数据库进行机器学习。</p>
+<h2 id="3-1-基于softmax-回归实现MNIST手写数字识别"><a href="#3-1-基于softmax-回归实现MNIST手写数字识别" class="headerlink" title="3.1 基于softmax 回归实现MNIST手写数字识别"></a>3.1 基于softmax 回归实现MNIST手写数字识别</h2><h3 id="3-1-1-MNIST简介"><a href="#3-1-1-MNIST简介" class="headerlink" title="3.1.1 MNIST简介"></a>3.1.1 MNIST简介</h3><p>&#160; &#160; &#160; &#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。<br>&#160; &#160; &#160; &#160;它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图，图片都被转成二进制放到了文件里面，用户可以直接从二进制文件中读取图片数据，进行数据预处理以及数据分析。本章主要基于MNIST这一经典数据库进行机器学习。<br><a id="more"></a></p>
 <h3 id="3-1-2-softmax回归模型介绍"><a href="#3-1-2-softmax回归模型介绍" class="headerlink" title="3.1.2 softmax回归模型介绍"></a>3.1.2 softmax回归模型介绍</h3><p>&#160; &#160; &#160; &#160;MNIST的每一张图片都表示一个数字，从0到9，我们用x表示图片，用y表示图片x表示图片是某个数字的概率。我在机器学习训练过程中，我们希望能得到给定图片代表每个数字的概率，比如说，我们的模型可能推测一张包含9的图片代表数字9的概率是80% 但是判断它是8的概率是5%，然后我们就可以根据图片代表数字i的概率y来进行分类。<br>对于给定的输入图片 x 它代表的是数字 i 的证据可以表示为：<br><img src="http://ocpreuqkv.bkt.clouddn.com/blog3/0/0.png" width="57%"><br>&#160; &#160; &#160; &#160;其中 Wi 代表权重，bi 代表数字 i 的偏置量（因为输入往往会带有一些无关的干扰量，所以我们需要偏置量）j 代表给定图片 x 的像素索引，用于像素求和。然后用softmax函数可以把这些证据转换成概率 y：</p>
 <p><img src="http://ocpreuqkv.bkt.clouddn.com/blog3/1/1.png" width="50%"><br>&#160; &#160; &#160; &#160;这里的softmax可以看成是一个激励（activation）函数或者链接（link）函数，把我们定义的线性函数的输出转换成我们想要的格式，也就是关于10个数字类的概率分布。因此，给定一张图片，它对于每一个数字的吻合度可以被softmax函数转换成为一个概率值。softmax函数可以定义为：<br>&#160; &#160; &#160; <img src="http://ocpreuqkv.bkt.clouddn.com/blog3/2/2.png" width="55%"><br>&#160; &#160; &#160; &#160;展开等式右边的子式，可以得到：<br>&#160; <img src="http://ocpreuqkv.bkt.clouddn.com/blog3/3/3.png" width="54%"><br>&#160; &#160; &#160; &#160;对于softmax回归模型可以用下面的图15解释，对于输入的图片加权求和，再分别加上一个偏置量，最后再输入到softmax函数中得到概率y：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog3/4/4.png" width="80%"></center>   </p>
@@ -281,7 +281,7 @@
 <p><center>图27：测试部分代码1</center></p>
 <p></p><p><br>&#160; &#160; &#160; &#160;最后给出本次实验中结果，准确率为91.49%，如下图所示：<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog3/28/2016-08-15%2015-40-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>   </p>
 <p><center>图27：本次实验结果图</center></p>
-<p></p><p><br>本节主要参考资料来自于TensorFlow官方文档。</p>
+<p></p><p><br>本节主要参考资料来自于TensorFlow官方中文文档。</p>
 
       
     </div>
