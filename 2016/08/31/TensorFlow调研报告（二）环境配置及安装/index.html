@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/12/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-08-10%20%E4%B8%8B%E5%8D%884.15.49.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/13/2016-08-09%2010-37-12%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/14/2016-08-09%2010-41-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
-<meta property="og:updated_time" content="2016-09-05T13:59:10.000Z">
+<meta property="og:updated_time" content="2016-09-05T14:04:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow调研报告（二）环境配置及横向安装">
 <meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
@@ -235,39 +235,34 @@
         <p>（Jason Cheng 原创，未经许可不可转载）</p>
 <h1 id="第二章-环境配置及安装"><a href="#第二章-环境配置及安装" class="headerlink" title="第二章 环境配置及安装"></a>第二章 环境配置及安装</h1><p>&#160; &#160; &#160; &#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlow支持Python，C/C++ 3种编程语言，但是部分API仅支持Python，因此本报告中的环境配置和示例代码均基于Python. TensorFlow支持Linux，Mac OS X 2种操作系统，由于Linux在当下编程环境中经常使用，因此本报告中的操作系统均指Ubuntu16.04LTS，最新版本的Ubuntu系统（本报告完成前）。<br><a id="more"></a></p>
 <h2 id="2-1-Python环境安装"><a href="#2-1-Python环境安装" class="headerlink" title="2.1 Python环境安装"></a>2.1 Python环境安装</h2><p>&#160; &#160; &#160; &#160;一般情况下，Linux都会预装 Python，但是预装的Python版本一般较低，Ubuntu16.04LTS桌面版中预装的Python版本为Python2.7.2.目前Python比较流行的版本为Python3.5，因此本小节主要叙述Python3.5的安装，安装方式采用apt-get. apt-get是一条Linux命令，适用于deb包管理式的操作系统，主要用于自动从互联网的软件仓库中搜索、安装、升级、卸载软件或操作系统。采用apt-get 方式安装Python3方便，快捷。<br>&#160; &#160; &#160; &#160;需要使用apt-get首先需要确定Linux操作系统中的套件资讯是最新的。要确定的最佳方法就是执行一次apt-get update 命令更新最新的套件资讯。命令行见下图4.<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/4/2016-08-09%2011-41-32%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>   </p>
-<p><center>图4：Python环境安装步骤1</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;使用apt-get更新完套件资讯后，执行apt-get install命令安装Python3.5.命令行见下图5.</p>
-<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/5/2016-08-09%2011-42-18%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>   </p>
-<p><center>图5：Python环境安装步骤2</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;安装完Python3.5后 还要在bin文件夹内用目前的Python3.5命令替代原来的Python命令，使得操作系统默认的Python解释器为最新的Python3.5.命令行见下图6.</p>
-<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/6/2016-08-09%2011-43-58%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>   </p>
-<p><center>图6：Python环境安装步骤3</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;经上述步骤，Python3.5安装完成。</p>
+<center>图4：Python环境安装步骤1</center>
+
+<p>&#160; &#160; &#160; &#160;使用apt-get更新完套件资讯后，执行apt-get install命令安装Python3.5.命令行见下图5.</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/5/2016-08-09%2011-42-18%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><br><center>图5：Python环境安装步骤2</center>
+
+<p>&#160; &#160; &#160; &#160;安装完Python3.5后 还要在bin文件夹内用目前的Python3.5命令替代原来的Python命令，使得操作系统默认的Python解释器为最新的Python3.5.命令行见下图6.</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/6/2016-08-09%2011-43-58%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><br><center>图6：Python环境安装步骤3</center>
+
+<p>&#160; &#160; &#160; &#160;经上述步骤，Python3.5安装完成。</p>
 <p></p><p><br>本节主要参考TensorFlow官方中文文档。 </p>
 <h2 id="2-2-TensorFlow环境安装"><a href="#2-2-TensorFlow环境安装" class="headerlink" title="2.2 TensorFlow环境安装"></a>2.2 TensorFlow环境安装</h2><h3 id="2-2-1-采用pip安装TensorFlow"><a href="#2-2-1-采用pip安装TensorFlow" class="headerlink" title="2.2.1 采用pip安装TensorFlow"></a>2.2.1 采用pip安装TensorFlow</h3><p>&#160; &#160; &#160; &#160;pip 是一个 Python 的软件包安装与管理工具，是easy_install的替代品，可以管理Python软件包，并自动化解决Linux下软件依赖的情况。在TensorFlow官方中文文档当中，也推荐用户采用pip安装，因此本节中详细描述采用pip安装TensorFlow步骤，下一节中简要介绍采用Docker安装TensorFlow方法。<br>&#160; &#160; &#160; &#160;首先采用apt-get的方式安装 pip，命令行见下图7.</p>
-<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/7/2016-08-09%2010-02-38%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>   </p>
-<p><center>图7：TensorFlow环境安装步骤1</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;然后采用pip的方式安装TensorFlow，命令行见下图8. 本报告中安装的是最新版0.8.0（截止报告完成前），同时由于实验机器操作系统为64位系统，因此本报告中安装x86_64版本的TensorFlow，其它类型的操作系统可以自行选择安装版本。<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/8/2016-08-09%2010-21-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>       </p>
-<p><center>图8：TensorFlow环境安装步骤2</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;在本过程中如果没有以root的身份进行安装，Terminal中会出现如下图9中所示警告，用户可直接忽略，不影响TensorFlow最终安装结果。<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/9/2016-08-09%2010-21-49%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>       </p>
-<p><center>图9：安装过程中可能出现的警告</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;忽略警告后继续进行安装，如下图10所示，TensorFlow正在从Google API处下载。</p>
-<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/10/2016-08-09%2010-22-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>       </p>
-<p><center>图10：TensorFlow环境安装步骤4</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;用户看到如下图11显示，则TensorFlow安装完成，用户可根据自身需求选择是否升级Python的pip工具。此时TensorFlow已经安装完毕，在2.3节中将给出2个简单的TensorFlow示例程序，用户在完成安装之后，可通过运行2个示例程序验证是否安装成功。</p>
-<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/11/2016-08-09%2010-33-12%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>       </p>
-<p><center>图11：TensorFlow环境安装步骤5</center></p>
-<p></p><p>                            </p>
-<h3 id="2-2-2-采用Docker安装TensorFlow"><a href="#2-2-2-采用Docker安装TensorFlow" class="headerlink" title="2.2.2 采用Docker安装TensorFlow"></a>2.2.2 采用Docker安装TensorFlow</h3><p>（本节主要参考TensorFlow官方文档，用户在Windows上安装TensorFlow可参考<a href="http://blog.csdn.net/neilron/article/details/51387161）" target="_blank" rel="external">http://blog.csdn.net/neilron/article/details/51387161）</a><br>&#160; &#160; &#160; &#160;Docker是一种应用容器（Application Container），一种新颖方式实现的超轻量虚拟机，采用Docker方法进行安装，用户可以不用考虑软件依赖问题。用户需要先安装Docker，然后用下图12所示命令进行安装，Google提供了TensorFlow镜像。详细步骤用户可自行查阅官方中文文档或其它参考资料，本节不详细叙述相关步骤。<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/12/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-08-10%20%E4%B8%8B%E5%8D%884.15.49.png" width="80%"></center>       </p>
-<p><center>图12：采用Docker方法安装TensorFlow</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;采用Docker方法安装TensorFlow最大的优点在与Windows同样支持Docker.虽然TensorFlow官方并不支持Windows操作系统，但是用户可自行查阅相关资料，在Windows上安装TensorFlow，本节同样不再详述。  </p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/7/2016-08-09%2010-02-38%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><br><center>图7：TensorFlow环境安装步骤1</center><br>&#160; &#160; &#160; &#160;然后采用pip的方式安装TensorFlow，命令行见下图8. 本报告中安装的是最新版0.8.0（截止报告完成前），同时由于实验机器操作系统为64位系统，因此本报告中安装x86_64版本的TensorFlow，其它类型的操作系统可以自行选择安装版本。<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/8/2016-08-09%2010-21-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><br><center>图8：TensorFlow环境安装步骤2</center>
+
+<p>&#160; &#160; &#160; &#160;在本过程中如果没有以root的身份进行安装，Terminal中会出现如下图9中所示警告，用户可直接忽略，不影响TensorFlow最终安装结果。<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/9/2016-08-09%2010-21-49%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>       </p>
+<center>图9：安装过程中可能出现的警告</center>
+
+<p>&#160; &#160; &#160; &#160;忽略警告后继续进行安装，如下图10所示，TensorFlow正在从Google API处下载。</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/10/2016-08-09%2010-22-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><br><center>图10：TensorFlow环境安装步骤4</center><br>&#160; &#160; &#160; &#160;用户看到如下图11显示，则TensorFlow安装完成，用户可根据自身需求选择是否升级Python的pip工具。此时TensorFlow已经安装完毕，在2.3节中将给出2个简单的TensorFlow示例程序，用户在完成安装之后，可通过运行2个示例程序验证是否安装成功。<br><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/11/2016-08-09%2010-33-12%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><br><center>图11：TensorFlow环境安装步骤5</center><br>### 2.2.2 采用Docker安装TensorFlow<br>（本节主要参考TensorFlow官方文档，用户在Windows上安装TensorFlow可参考<a href="http://blog.csdn.net/neilron/article/details/51387161）" target="_blank" rel="external">http://blog.csdn.net/neilron/article/details/51387161）</a><br>&#160; &#160; &#160; &#160;Docker是一种应用容器（Application Container），一种新颖方式实现的超轻量虚拟机，采用Docker方法进行安装，用户可以不用考虑软件依赖问题。用户需要先安装Docker，然后用下图12所示命令进行安装，Google提供了TensorFlow镜像。详细步骤用户可自行查阅官方中文文档或其它参考资料，本节不详细叙述相关步骤。<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/12/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-08-10%20%E4%B8%8B%E5%8D%884.15.49.png" width="80%"></center><br><center>图12：采用Docker方法安装TensorFlow</center>
+
+<p>&#160; &#160; &#160; &#160;采用Docker方法安装TensorFlow最大的优点在与Windows同样支持Docker.虽然TensorFlow官方并不支持Windows操作系统，但是用户可自行查阅相关资料，在Windows上安装TensorFlow，本节同样不再详述。  </p>
 <p></p><p><br>本节主要参考TensorFlow官方中文文档。</p>
 <h2 id="2-3-TensorFlow程序示例"><a href="#2-3-TensorFlow程序示例" class="headerlink" title="2.3 TensorFlow程序示例"></a>2.3 TensorFlow程序示例</h2><p>&#160; &#160; &#160; &#160;本节给出2段TensorFlow示例代码，用户可通过示例代码验证TensorFlow是否安装成功。<br>&#160; &#160; &#160; &#160;TensorFlow显示Hello World. 代码及结果见下图13.<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/13/2016-08-09%2010-37-12%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>       </p>
-<p><center>图13：TensorFlow示例代码1</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;TensorFlow计算数字相加结果. 代码及结果见下图14.</p>
-<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/14/2016-08-09%2010-41-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>       </p>
-<p><center> 图14：TensorFlow示例代码2</center></p>
-<p></p><p><br>&#160; &#160; &#160; &#160;可以看到，上述2段程序结果都是正确无误的，在本机中TensorFlow安装成功。</p>
+<center>图13：TensorFlow示例代码1</center>
+
+<p>&#160; &#160; &#160; &#160;TensorFlow计算数字相加结果. 代码及结果见下图14.</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/14/2016-08-09%2010-41-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><br><center> 图14：TensorFlow示例代码2</center>
+
+<p>&#160; &#160; &#160; &#160;可以看到，上述2段程序结果都是正确无误的，在本机中TensorFlow安装成功。</p>
 <p></p><p><br>本节主要参考资料来自于TensorFlow官方中文文档。</p>
 
       
