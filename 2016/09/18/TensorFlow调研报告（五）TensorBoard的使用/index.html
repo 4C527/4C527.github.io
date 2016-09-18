@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>TensorFlow调研报告（五）TensorBoard的使用 | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（Jason Cheng 原创，未经许可不可转载）
+3.3 TensorBoard数据可视化的使用&amp;#160; &amp;#160; &amp;#160; &amp;#160;采用TensorFlow进行深度学习涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。&amp;#160; &amp;#160; &amp;#160; &amp;#160;为了更方便 TensorFlow 程序的理解、调试与优化，TensorFlow中包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow调研报告（五）TensorBoard的使用">
+<meta property="og:url" content="http://yoursite.com/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="（Jason Cheng 原创，未经许可不可转载）
+3.3 TensorBoard数据可视化的使用&amp;#160; &amp;#160; &amp;#160; &amp;#160;采用TensorFlow进行深度学习涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。&amp;#160; &amp;#160; &amp;#160; &amp;#160;为了更方便 TensorFlow 程序的理解、调试与优化，TensorFlow中包">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/45/2016-08-24%2011-13-42%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/46/2016-08-24%2011-13-53%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/47/2016-08-24%2011-14-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/48/2016-08-24%2011-14-19%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/49/2016-08-24%2011-14-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/50/2016-08-24%2011-15-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/51/2016-08-24%2011-08-26%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/52/2016-08-24%2011-09-42%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/53/2016-08-24%2011-10-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/54/2016-08-24%2011-11-04%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/55/2016-08-24%2011-11-39%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/56/2016-08-24%2011-11-56%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+<meta property="og:updated_time" content="2016-09-18T08:43:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow调研报告（五）TensorBoard的使用">
+<meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
+3.3 TensorBoard数据可视化的使用&amp;#160; &amp;#160; &amp;#160; &amp;#160;采用TensorFlow进行深度学习涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。&amp;#160; &amp;#160; &amp;#160; &amp;#160;为了更方便 TensorFlow 程序的理解、调试与优化，TensorFlow中包">
+<meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog5/45/2016-08-24%2011-13-42%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-TensorFlow调研报告（五）TensorBoard的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/" class="article-date">
+  	<time datetime="2016-09-18T08:42:39.000Z" itemprop="datePublished">2016-09-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TensorFlow调研报告（五）TensorBoard的使用
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/可视化/">可视化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>（Jason Cheng 原创，未经许可不可转载）</p>
+<h2 id="3-3-TensorBoard数据可视化的使用"><a href="#3-3-TensorBoard数据可视化的使用" class="headerlink" title="3.3 TensorBoard数据可视化的使用"></a>3.3 TensorBoard数据可视化的使用</h2><p>&#160; &#160; &#160; &#160;采用TensorFlow进行深度学习涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。<br>&#160; &#160; &#160; &#160;为了更方便 TensorFlow 程序的理解、调试与优化，TensorFlow中包含了一套叫做 TensorBoard的可视化工具。开发人员可以用 TensorBoard来展现TensorFlow 图像，绘制图像生成的定量指标图以及附加数据。<br>&#160; &#160; &#160; &#160;本节主要通过分析代码的方式阐述如何使用TensorBoard可视化工具，本次TensorBoard的使用基于3.1节中的基于softmax 回归实现MNIST手写数字识别代码。<a id="more"></a><br>&#160; &#160; &#160; &#160;（1）首先，在使用TensorBoard时，需要创建想汇总数据的 TensorFlow 图，然后再选择想在哪个节点进行汇总(summary)操作。在本实验中我们在希望记录权值(weights)和偏置量(bias)如何变化，通过向节点附加histogram_summary 操作来分别输出权值和偏置量（histogram表示矩阵型的变量，权值和偏置量都属于矩阵型变量）。然后我们需要给每个histogram_summary 分配一个有意义的标签，比如下图中的“weight”和“bias”。用python中的with语句来定义图中的命令域，例如本部分代码中设定1个大的命名域为layer1，2个小的命名域为weights和bias。代码如下图所示：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/45/2016-08-24%2011-13-42%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图45：TensorBoard使用代码1</center>       
+
+<p>&#160; &#160; &#160; &#160;（2）然后我们再定义一个命名域为input，里面包含了图片集和标签集2个变量。代码如下图所示：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/46/2016-08-24%2011-13-53%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图46：TensorBoard使用代码2</center>        
+
+<p>&#160; &#160; &#160; &#160;（3）接着我们再定义一个命名域为cross_entropy，即3.1节中的交叉熵，在本实验中我们也需要记录损失函数如何变化，通过向节点附加scalar_summary 操作来输出交叉熵（scalar表示数值型的变量，即非向量型的变量，交叉熵属于数值型）。然后我们给交叉熵的scalar_summary 分配一个有意义的标签“loss”。代码如下图所示：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/47/2016-08-24%2011-14-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图47：TensorBoard使用代码3</center>        
+
+
+<p>&#160; &#160; &#160; &#160;（4）同上，本部分代码中设定1个大的命名域为accuracy，2个小的命名域为correct_prediction和accuracy, 并记录准确率是如何变化的。代码如下图所示：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/48/2016-08-24%2011-14-19%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图48：TensorBoard使用代码4</center>         
+
+<p>&#160; &#160; &#160; &#160;（5）在TensorFlow中，所有的操作只有当用户执行，或者另一个操作依赖于它的输出时才会运行。我们之前创建的这些节点(summary nodes)都围绕着最后生成的图像，没有任何操作依赖于它们的结果。因此，为了生成汇总信息，我们需要运行所有这些节点，实验中我们可以使用tf.merge_all_summaries来将他们合并为一个操作。<br>然后我们执行合并命令，它会依据特点步骤将所有数据生成一个序列化的Summary，即一个 protobuf 格式的对象。最后，为了将汇总数据写入磁盘，需要将汇总的protobuf 对象传递给tf.train.Summarywriter。<br>SummaryWriter 的构造函数中包含了参数 logdir。这个 logdir 非常重要，所有事件都会写到它所指的目录下。此外，SummaryWriter 中还包含了一个可选择的参数 GraphDef。如果输入了该参数，那么 TensorBoard会显示用户自定义的其他图像，例如之前本例中定义的权值、偏置量、准确率的变化曲线图。代码如下图所示：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/49/2016-08-24%2011-14-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图49：TensorBoard使用代码5</center>         
+
+<p>&#160; &#160; &#160; &#160;（6）最后我们可以进行进行合并汇总，在本例中我们选择每20步执行一次合并汇总而不是每一步都输出，以免数据量过多。代码如下图所示：<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/50/2016-08-24%2011-15-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图50：TensorBoard使用代码6</center>  </p>
+<p>&#160; &#160; &#160; &#160;最后给出本次实验结果，我们在命令行下输入如下命令，就可以启动TensorBoard，然后打开浏览器，输入URL：<a href="http://0.0.0.0:6006" target="_blank" rel="external">http://0.0.0.0:6006</a> 就可以查看最后生成的图表。需输入命令如下图所示：   </p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/51/2016-08-24%2011-08-26%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图51：查看结果所需命令行</center>    
+
+<p>&#160; &#160; &#160; &#160;流图如下，该图展示了整个训练中的具体计算步骤：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/52/2016-08-24%2011-09-42%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图52：TensorBoard流图</center>  
+
+<p>&#160; &#160; &#160; &#160;偏置量变化图如下，该图展示了偏置量在整个训练过程中随训练步数的变化情况：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/53/2016-08-24%2011-10-06%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图53：TensorBoard偏置量变化图</center> 
+
+<p>&#160; &#160; &#160; &#160;权值变化图如下，该图展示了权值在整个训练过程中随训练步数的变化情况：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/54/2016-08-24%2011-11-04%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图54：TensorBoard权值变化图</center>  
+
+<p>&#160; &#160; &#160; &#160;准确率变化图如下，该图展示了训练准确率在整个训练过程中随训练步数的变化情况：<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/55/2016-08-24%2011-11-39%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图55：TensorBoard准确率变化图</center> </p>
+<p>&#160; &#160; &#160; &#160;损失值变化图如下，该图展示了损失值在整个训练过程中随训练步数的变化情况：</p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/56/2016-08-24%2011-11-56%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图56：TensorBoard损失值变化图</center>        
+
+<h2 id="3-4-本章小结"><a href="#3-4-本章小结" class="headerlink" title="3.4 本章小结"></a>3.4 本章小结</h2><p>&#160; &#160; &#160; &#160;本章主要包括了三部分内容：<br>&#160; &#160; &#160; &#160;➢    一、基于softmax 回归实现MNIST手写数字识别，本部分实现了一个最基本的，只有输出和输出层的神经网络，测试准确率也仅为91%，但是读者可以通过调整学习率等参数对本实验进行进一步改进。<br>&#160; &#160; &#160; &#160;➢    二、采用TensorFlow 实现基于CNN的MNIST手写数字识别，本部分实现了一个2层隐层的CNN网络，同时通过加入dropout层，优化梯度下降算法等方法进一步提高了准确率，最终准确率高达99%。<br>&#160; &#160; &#160; &#160;➢    三、TensorBoard数据可视化的使用，本部分是基于部分一的基础上进行的，通过调用TensorFlow的TensorBoard模块展示了基于softmax 回归实现MNIST手写数字识别这一机器学习模型的训练流图，也自定义了权值、偏置量、准确率等变量随训练步数的变化图。<br>&#160; &#160; &#160; &#160;总之，本章是对TensorFlow这一深度学习库的使用指南，读者可以通过本章了解TensorFlow是如何使用的，初次接触深度学习的读者也可以通过本章进行深度学习的入门。 </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TensorFlow调研报告（四）基于CNN实现MNIST识别</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（五）TensorBoard的使用" data-title="TensorFlow调研报告（五）TensorBoard的使用" data-url="http://yoursite.com/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
