@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/57/57.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/58/58.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/59/chart1.png">
-<meta property="og:updated_time" content="2016-09-18T13:02:29.000Z">
+<meta property="og:updated_time" content="2016-09-18T13:20:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow调研报告（六）TensorFlow基本运作流程">
 <meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
@@ -236,6 +236,7 @@
 <h3 id="4-2-2-会话（session）"><a href="#4-2-2-会话（session）" class="headerlink" title="4.2.2 会话（session）"></a>4.2.2 会话（session）</h3><p>&#160; &#160; &#160; &#160;客户端通过创建会话（session）和 TensorFlow 系统进行交互。为了创建一个计算图，会话接口支持外部（external）方法来提升当前由包含额外节点和边的会话的图（当会话创建时初始的图是空的）。另一个由会话接口提供的主要的操作就是 Run，以需要计算的输出名称和替换某些输出节点的张量的操作集合作为其参数输入。通过控制 Run 的参数，TensorFlow 的实现可以计算所有节点的必须执行传递闭包来计算需要的输出，然后安排执行合适节点来保证他们的依赖关系。大多数 TensorFlow的使用都是针对一个图启动一个会话，然后执行整个图或者通过 Run 调用来执行分离的子图数千甚至数百万次。</p>
 <h3 id="4-2-3-变量（variable）"><a href="#4-2-3-变量（variable）" class="headerlink" title="4.2.3 变量（variable）"></a>4.2.3 变量（variable）</h3><p>&#160; &#160; &#160; &#160;在大多数计算中，图都是执行多次的。大多数的张量在一次执行后不会存活。然而，变量（variable）是一种特别的操作，它可以返回一个在图执行若干次过程中存活的持久化的可变张量的句柄。这个句柄可以传递给一系列特定的操作，例如 Assign 和 AssignAdd（等同于 +=）就可以改变其引用的张量了。对应 TensorFlow 在机器学习中的应用，模型的参数就存放在变量引用的张量中，并作为模型训练图的 Run 的一部分进行更新。</p>
 <h3 id="4-2-4-底层实现"><a href="#4-2-4-底层实现" class="headerlink" title="4.2.4 底层实现"></a>4.2.4 底层实现</h3><p>&#160; &#160; &#160; &#160;TensorFlow 系统的一个重要部分就是客户端，它使用了会话接口来和 master 及一个或者多个的 worker processes 进行通信，每个 worker process 负责对一个或者多个计算设备（CPU 核或者 GPU card）的任意访问和在这些设备上进行图节点的计算，并按照 master 的要求执行。TensorFlow中有本地和分布式2个版本的接口。本地实现通常是客户端、master 和 worker 都是在同一台机器上在一个单一的操作系统进程（可能包括多个设备，比如说装了多个 GPU card的设备）上运行。分布式实现复用了很多本地实现的代码，但是扩展了使客户端、master 和 worker 可以在不同的机器的不同的进程上运行的场景支持。<br>&#160; &#160; &#160; &#160;通过以上四个方面，我们可以简要了解TensorFlow的基本原理，TensorFlow更详细的原理读者可以查阅TensorFlow白皮书来了解详情。</p>
+<p>本节主要参考资料来自于TensorFlow白皮书。</p>
 
       
     </div>
@@ -244,6 +245,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/09/18/TensorFlow调研报告（七）总结与展望/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          TensorFlow调研报告（七）总结与展望
+        
+      </div>
+    </a>
   
   
     <a href="/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/" id="article-nav-older" class="article-nav-link-wrap">

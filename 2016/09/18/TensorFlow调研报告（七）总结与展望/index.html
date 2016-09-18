@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>TensorFlow调研报告（七）总结与展望 | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
+第五章 总结与展望5.1 总结&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow开源至今已有大半年的时间（截止本报告完成前），也从之前的0.1单机版本更新到了支持分布式机器学习的0.8版本。下面，就TensorFlow的优缺点给出本调研报告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow调研报告（七）总结与展望">
+<meta property="og:url" content="http://yoursite.com/2016/09/18/TensorFlow调研报告（七）总结与展望/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="上一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
+第五章 总结与展望5.1 总结&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow开源至今已有大半年的时间（截止本报告完成前），也从之前的0.1单机版本更新到了支持分布式机器学习的0.8版本。下面，就TensorFlow的优缺点给出本调研报告">
+<meta property="og:updated_time" content="2016-09-18T13:29:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow调研报告（七）总结与展望">
+<meta name="twitter:description" content="上一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
+第五章 总结与展望5.1 总结&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow开源至今已有大半年的时间（截止本报告完成前），也从之前的0.1单机版本更新到了支持分布式机器学习的0.8版本。下面，就TensorFlow的优缺点给出本调研报告">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-TensorFlow调研报告（七）总结与展望" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/18/TensorFlow调研报告（七）总结与展望/" class="article-date">
+  	<time datetime="2016-09-18T13:21:45.000Z" itemprop="datePublished">2016-09-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TensorFlow调研报告（七）总结与展望
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%85%AD%EF%BC%89TensorFlow%E5%9F%BA%E6%9C%AC%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B/" target="_blank" rel="external">上一篇：TensorFlow调研报告（六）TensorFlow基本运作流程</a><br>（Jason Cheng 原创，未经许可不可转载）     </p>
+<h1 id="第五章-总结与展望"><a href="#第五章-总结与展望" class="headerlink" title="第五章 总结与展望"></a>第五章 总结与展望</h1><h2 id="5-1-总结"><a href="#5-1-总结" class="headerlink" title="5.1 总结"></a>5.1 总结</h2><p>&#160; &#160; &#160; &#160;TensorFlow开源至今已有大半年的时间（截止本报告完成前），也从之前的0.1单机版本更新到了支持分布式机器学习的0.8版本。下面，就TensorFlow的优缺点给出本调研报告的总结。 </p>
+<h3 id="5-1-1-TensorFlow优点"><a href="#5-1-1-TensorFlow优点" class="headerlink" title="5.1.1 TensorFlow优点"></a>5.1.1 TensorFlow优点</h3><p>&#160; &#160; &#160; &#160;TensorFlow开源至今已有大半年的时间（截止本报告完成前），也从之前的0.1单机版本更新到了支持分布式机器学习的0.8版本。下面，就TensorFlow的优缺点给出本调研报告总结。<a id="more"></a><br>&#160; &#160; &#160; &#160;一、社区活跃度高<br>&#160; &#160; &#160; &#160;TensorFlow社区的大多数人都是开放心态，并对优化TensorFlow这一开源项目满怀热情。谷歌Deepmind团队也与近期宣布从Torch迁移到TensorFlow，因此谷歌很可能在未来会开源TensorFlow RL（强化学习）模型。当社区的每个人都具有开放性、愿意贡献API 、有用的模块并且乐于助人时，TensorFlow社区的未来一定是光明的。</p>
+<p>&#160; &#160; &#160; &#160;二、技术障碍基本扫清<br>&#160; &#160; &#160; &#160;2015年11月份，TensorFlow刚刚开源时，还存在一些真正的和潜在的技术问题。但是目前这些基本上都已经被扫清，比如：<br>1、支持多GPU：已经完成，在官网文档中已有教程，清晰简洁。<br>2、分布式训练：v0.8已经支持分布式训练。<br>3、支持操作队列：数据加载或图像预处理。<br>4、TensorBoard支持图形可视化：当编程人员学习和调试新模型时，容易陷入迷惑，因此TensorBoard图形可视化非常有用。<br>5、使用TensorBoard以交互方式记录日志：通过TensorBoard可以随时进行日志记录，比如学习速率、损失值、测试精度等。<br>6、模型检查点设置：一个模型训练一段时间后，编程人员可以按需求于检查点停下来进行评估，然后从检查点重新加载，继续训练。<br>7、使用CUDNN优化GPU性能：与Theano等框架类似，使用了CUDNN进行GPU性能优化。TensorFlow v0.8目前使用 CUDNNv4，性能有所提高。</p>
+<p>&#160; &#160; &#160; &#160;三、有几个高质量的元框架(metaframework)<br>&#160; &#160; &#160; &#160;1、Keras封装了TensorFlow 和Theano后端。对于不想了解TensorFlow (或者Theano)的使用者来说，只需要模块化地调用它。<br>&#160; &#160; &#160; &#160;2、TensorFlow Slim是对图像模型来说不错的参考。Slim 对开发者使用TensorFlow API和模型设计都有极大的参考价值。<br>&#160; &#160; &#160; &#160;3、Scikit Flow 是 TensorFlow 的简化接口，是一个参考 Scikit-learn风格的API。<br>&#160; &#160; &#160; &#160;4、PrettyTensor提供类似张量（tensors）的对象，并有可链接的语法，可以构建某种类型的模型。</p>
+<p>&#160; &#160; &#160; &#160;四、完善的版本进度管理<br>&#160; &#160; &#160; &#160;维护一个开源项目，尤其是TensorFlow这种技术复杂的项目挑战非常大。TensorFlow团队的运营人员对于版本管理细节做的非常完善。</p>
+<p>&#160; &#160; &#160; &#160;五、测试出色<br>&#160; &#160; &#160; &#160;测试对功能验证来说非常重要，当用户发现TensorFlow训练情况与预期的不一样时，用户可以在Github搜索TensorFlow测试了解TensorFlow测试方法，并进行测试，观察测试结果。</p>
+<h3 id="5-1-2-TensorFlow缺点"><a href="#5-1-2-TensorFlow缺点" class="headerlink" title="5.1.2 TensorFlow缺点"></a>5.1.2 TensorFlow缺点</h3><p>&#160; &#160; &#160; &#160;一、相比Theano框架，在RNN实现方面还存在不足<br>&#160; &#160; &#160; &#160;RNN(Recurrent Neural Networks)循环神经网络，属于Recursive Neural Network（递归神经网络的一种变体）。Recurrent指的是时间维度的展开，代表信息在时间维度从前往后的的传递和积累，后面的信息的概率建立在前面信息的基础上，在神经网络结构上表现为后面的神经网络的隐藏层的输入是前面的神经网络的隐藏层的输出，而recursive指的空间维度的展开，是一个树结构。<br>Theano 团队在优化他们的循环神经网络实现付出了很多的精力，在这方面TensorFlow还有较大的差距，但是近几个月这种差距在缩小。<br>&#160; &#160; &#160; &#160;对于循环神经网络，在单 GPU 的情形下，Theano 可能比 TensorFlow 快一些，而且占用 GPU 内存小一点。但是在多 GPU 方面TensorFlow略占优势。</p>
+<p>&#160; &#160; &#160; &#160;二、数据训练目前还缺乏令人信服的示例<br>&#160; &#160; &#160; &#160;TensorFlow 文档和案例主要使用一些著名的学术数据集来阐述各种特性或功能。这是有一定道理的，但是，现实中的问题几乎不能简单替换这些数据集。<br>开发者在学习TensorFlow 时最困难的是，如何将现实中杂乱的数据抽象为模型能识别的各种张量（tensor），因此如果有一些令人信服的案例，具体展示如何完成抽象过程，会对开发者来说非常有帮助。遗憾的是，谷歌并没有提供更多的这方面的示例。因此作为开发人员，往往需要在将显示数据抽象为模型输入张量这一具体过程中花费很多时间。</p>
+<p>&#160; &#160; &#160; &#160;三、文档尚不完善<br>&#160; &#160; &#160; &#160;尽管TensorFlow 公布了一些教程，其代码注释的质量很高，但是由于深度学习领域范围广，发展很快，在新功能与教程之间还有很大的不足。</p>
+<p>&#160; &#160; &#160; &#160;四、TensorFlow 独占GPU<br>&#160; &#160; &#160; &#160;在初始化时， TensorFlow 尝试去分配所有可用的GPU内存给自己。这是一把双刃剑，取决于使用者的情景。如果使用者开发一个模型，使用的是本地计算机上的 GPU，那么使用者可能会想分配一部分 GPU 到其他的事上。如果使用者在云计算环境下运行模型，那么就需要了解有没有其他相互影响的代码。</p>
+<p>&#160; &#160; &#160; &#160;五、默认情况下，Theano 与TensorFlow会相互冲突<br>&#160; &#160; &#160; &#160;如果使用者在相同资源下运行 Theano 和 TensorFlow ，它们将会争夺 GPU 内存。为了在不同的 GPU 上运行完全不同的环境（比如两个 GPU 运行两种模式），用户可以限制 CUDA 只能探查到某种特定的设备。 CUDA是一种由NVIDIA推出的通用并行计算架构，该架构使GPU能够解决复杂的计算问题。它包含了CUDA指令集架构(ISA)以及GPU内部的并行计算引擎。</p>
+<p>&#160; &#160; &#160; &#160;六、其他<br>&#160; &#160; &#160; &#160;与其他学习框架相比，一些深度学习的基本概念是通用的，但是实现细节区别很大。比如队列（queues）, 特定图形运算（certain graph operations）、资源配置/内容管理（ resource allocation/context management）, 图像可视化（graph visualization）这些细节对很多深度学习开发者来说都还比较陌生，当然，所有TensorFlow的使用者也在不断学习。</p>
+<h2 id="5-2-展望"><a href="#5-2-展望" class="headerlink" title="5.2 展望"></a>5.2 展望</h2><p>&#160; &#160; &#160; &#160;当开源社区内的一些人实现了一次很棒的训练或者尝试了一些解决问题的新方法时，开源工具的优势就显现出来了。即使大部分人现在仍然处于学习使用 TensorFlow 的初级阶段，但是已经不断有开发者取得不错的进展！让我们展望人工智能的新时代！</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/18/TensorFlow调研报告（六）TensorFlow基本运作流程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TensorFlow调研报告（六）TensorFlow基本运作流程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（七）总结与展望" data-title="TensorFlow调研报告（七）总结与展望" data-url="http://yoursite.com/2016/09/18/TensorFlow调研报告（七）总结与展望/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
