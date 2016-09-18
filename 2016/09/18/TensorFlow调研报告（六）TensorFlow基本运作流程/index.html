@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>TensorFlow调研报告（六）TensorFlow基本运作流程 | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（Jason Cheng 原创，未经许可不可转载）
+第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow调研报告（六）TensorFlow基本运作流程">
+<meta property="og:url" content="http://yoursite.com/2016/09/18/TensorFlow调研报告（六）TensorFlow基本运作流程/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="（Jason Cheng 原创，未经许可不可转载）
+第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 N">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/57/57.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/58/58.png">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/59/chart1.png">
+<meta property="og:updated_time" content="2016-09-18T13:02:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow调研报告（六）TensorFlow基本运作流程">
+<meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
+第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 N">
+<meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/57/57.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-TensorFlow调研报告（六）TensorFlow基本运作流程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/18/TensorFlow调研报告（六）TensorFlow基本运作流程/" class="article-date">
+  	<time datetime="2016-09-18T13:01:21.000Z" itemprop="datePublished">2016-09-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TensorFlow调研报告（六）TensorFlow基本运作流程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>（Jason Cheng 原创，未经许可不可转载）</p>
+<h1 id="第四章-TensorFlow基本运作流程"><a href="#第四章-TensorFlow基本运作流程" class="headerlink" title="第四章 TensorFlow基本运作流程"></a>第四章 TensorFlow基本运作流程</h1><h2 id="4-1-TensorFlow基本运作流程"><a href="#4-1-TensorFlow基本运作流程" class="headerlink" title="4.1 TensorFlow基本运作流程"></a>4.1 TensorFlow基本运作流程</h2><p>&#160; &#160; &#160; &#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 Naiad （一种流体模拟软件 ）的行为方式。客户一般都会使用 TensorFlow支持的前端语言（C++或者Python）构建一个计算图。在图56中展示了一段样例，在例子中使用 Python语言构建并执行了一个 TensorFlow的计算图。<a id="more"></a></p>
+<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog6/57/57.png" width="80%"></center><center>图57：TensorFlow计算图示例代码</center>  
+
+
+<p>&#160; &#160; &#160; &#160;上图中代码所展示的结构计算图如下图57展示：<br>  <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog6/58/58.png" width="60%"></center><center>图58：TensorFlow结构计算图示例</center>                         </p>
+<p>&#160; &#160; &#160; &#160;在一幅 TensorFlow 结构计算图中，每个节点（node）有一个或者多个输入和零个或者多个输出，表示一种操作（operation）的实例化。流过图中正常的边（输出到输入）的值都是张量（tensor），任意维度的数组其中基础元素类型是指定的或者在图的构造过程中自动推断出来的。特别的边，我们称之为控制依赖（control dependencies），同样也存在在图中：这类边上没有数据流过，但是他们表示源节点必须在目标节点的控制依赖开始执行前完成运行。由于我们的模型包括可变状态，控制依赖可以被直接用来确保 happens-before 关系。我们的实现同样会插入控制依赖来确保独立操作之间的顺序，比如说作为控制内存使用最高峰值的方式。<br>&#160; &#160; &#160; &#160;通过这种方式，TensorFlow就可以完成一个模型的运算。[10] 以上图为例，权值W与输入变量x相乘，加上偏置量b，作为ReLU激励函数的输入变量，再经过一系列的运算，最终可以得到MNIST图像的分类信息。</p>
+<h2 id="4-2-TensorFlow基本运作原理"><a href="#4-2-TensorFlow基本运作原理" class="headerlink" title="4.2 TensorFlow基本运作原理"></a>4.2 TensorFlow基本运作原理</h2><h3 id="4-2-1-操作和核（kernel）"><a href="#4-2-1-操作和核（kernel）" class="headerlink" title="4.2.1 操作和核（kernel）"></a>4.2.1 操作和核（kernel）</h3><p>&#160; &#160; &#160; &#160;一个操作有一个名字，它表示一个抽象的计算（比如说，“矩阵相乘”或者“相加”）。一个操作可以有属性（attribute），所有的属性必须提供或者在图构造的过程中推断出以实例化一个节点的方式来执行操作。属性通常的使用方式是让操作在不同的张量元素类型上实现多态（例如，两个 float 类型的张量和两个 int32 类型的张量）。核（kernel）是一种操作的特别实现，可以运行在一个特定类型的设备上（如 CPU 或者 GPU）。TensorFlow定义了可以通过注册（registration）机制使操作可以运作在核的集合上。表1展示了内置于 TensorFlow 核心库的一些操作类型。</p>
+<p><center>表1：TensorFlow 支持的的操作类型</center><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog6/59/chart1.png" width="80%"></center> </p>
+<h3 id="4-2-2-会话（session）"><a href="#4-2-2-会话（session）" class="headerlink" title="4.2.2 会话（session）"></a>4.2.2 会话（session）</h3><p>&#160; &#160; &#160; &#160;客户端通过创建会话（session）和 TensorFlow 系统进行交互。为了创建一个计算图，会话接口支持外部（external）方法来提升当前由包含额外节点和边的会话的图（当会话创建时初始的图是空的）。另一个由会话接口提供的主要的操作就是 Run，以需要计算的输出名称和替换某些输出节点的张量的操作集合作为其参数输入。通过控制 Run 的参数，TensorFlow 的实现可以计算所有节点的必须执行传递闭包来计算需要的输出，然后安排执行合适节点来保证他们的依赖关系。大多数 TensorFlow的使用都是针对一个图启动一个会话，然后执行整个图或者通过 Run 调用来执行分离的子图数千甚至数百万次。</p>
+<h3 id="4-2-3-变量（variable）"><a href="#4-2-3-变量（variable）" class="headerlink" title="4.2.3 变量（variable）"></a>4.2.3 变量（variable）</h3><p>&#160; &#160; &#160; &#160;在大多数计算中，图都是执行多次的。大多数的张量在一次执行后不会存活。然而，变量（variable）是一种特别的操作，它可以返回一个在图执行若干次过程中存活的持久化的可变张量的句柄。这个句柄可以传递给一系列特定的操作，例如 Assign 和 AssignAdd（等同于 +=）就可以改变其引用的张量了。对应 TensorFlow 在机器学习中的应用，模型的参数就存放在变量引用的张量中，并作为模型训练图的 Run 的一部分进行更新。</p>
+<h3 id="4-2-4-底层实现"><a href="#4-2-4-底层实现" class="headerlink" title="4.2.4 底层实现"></a>4.2.4 底层实现</h3><p>&#160; &#160; &#160; &#160;TensorFlow 系统的一个重要部分就是客户端，它使用了会话接口来和 master 及一个或者多个的 worker processes 进行通信，每个 worker process 负责对一个或者多个计算设备（CPU 核或者 GPU card）的任意访问和在这些设备上进行图节点的计算，并按照 master 的要求执行。TensorFlow中有本地和分布式2个版本的接口。本地实现通常是客户端、master 和 worker 都是在同一台机器上在一个单一的操作系统进程（可能包括多个设备，比如说装了多个 GPU card的设备）上运行。分布式实现复用了很多本地实现的代码，但是扩展了使客户端、master 和 worker 可以在不同的机器的不同的进程上运行的场景支持。<br>&#160; &#160; &#160; &#160;通过以上四个方面，我们可以简要了解TensorFlow的基本原理，TensorFlow更详细的原理读者可以查阅TensorFlow白皮书来了解详情。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TensorFlow调研报告（五）TensorBoard的使用</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（六）TensorFlow基本运作流程" data-title="TensorFlow调研报告（六）TensorFlow基本运作流程" data-url="http://yoursite.com/2016/09/18/TensorFlow调研报告（六）TensorFlow基本运作流程/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
