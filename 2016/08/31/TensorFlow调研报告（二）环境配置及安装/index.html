@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>TensorFlow调研报告（二）环境配置及安装 | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="（Jason Cheng 原创，未经许可不可转载）
-第二章 环境配置及安装&amp;#160; &amp;#160; &amp;#160; &amp;#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlow支持Python，C/C++ 3种编程语言，但是部分API仅支持Python，因此本报告中的环境配置和示例代码均基于Python. Te">
+  <meta name="description" content="上一篇：TensorFlow调研报告（一）简介及横向比较下一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别（Jason Cheng 原创，未经许可不可转载）
+第二章 环境配置及安装&amp;#160; &amp;#160; &amp;#160; &amp;#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow调研报告（二）环境配置及安装">
 <meta property="og:url" content="http://yoursite.com/2016/08/31/TensorFlow调研报告（二）环境配置及安装/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="（Jason Cheng 原创，未经许可不可转载）
-第二章 环境配置及安装&amp;#160; &amp;#160; &amp;#160; &amp;#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlow支持Python，C/C++ 3种编程语言，但是部分API仅支持Python，因此本报告中的环境配置和示例代码均基于Python. Te">
+<meta property="og:description" content="上一篇：TensorFlow调研报告（一）简介及横向比较下一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别（Jason Cheng 原创，未经许可不可转载）
+第二章 环境配置及安装&amp;#160; &amp;#160; &amp;#160; &amp;#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlo">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/4/2016-08-09%2011-41-32%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/5/2016-08-09%2011-42-18%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/6/2016-08-09%2011-43-58%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
@@ -25,11 +25,11 @@
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/12/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-08-10%20%E4%B8%8B%E5%8D%884.15.49.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/13/2016-08-09%2010-37-12%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/14/2016-08-09%2010-41-31%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
-<meta property="og:updated_time" content="2016-09-18T07:13:28.000Z">
+<meta property="og:updated_time" content="2016-09-18T13:45:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow调研报告（二）环境配置及安装">
-<meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
-第二章 环境配置及安装&amp;#160; &amp;#160; &amp;#160; &amp;#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlow支持Python，C/C++ 3种编程语言，但是部分API仅支持Python，因此本报告中的环境配置和示例代码均基于Python. Te">
+<meta name="twitter:description" content="上一篇：TensorFlow调研报告（一）简介及横向比较下一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别（Jason Cheng 原创，未经许可不可转载）
+第二章 环境配置及安装&amp;#160; &amp;#160; &amp;#160; &amp;#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlo">
 <meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog2/4/2016-08-09%2011-41-32%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
@@ -232,7 +232,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>（Jason Cheng 原创，未经许可不可转载）</p>
+        <p><a href="https://4c527.github.io/2016/08/30/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%B8%80%EF%BC%89%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/" target="_blank" rel="external">上一篇：TensorFlow调研报告（一）简介及横向比较</a><br><a href="https://4c527.github.io/2016/09/05/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%B8%89%EF%BC%89%E5%9F%BA%E4%BA%8Esoftmax%20%E5%9B%9E%E5%BD%92%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/" target="_blank" rel="external">下一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
 <h1 id="第二章-环境配置及安装"><a href="#第二章-环境配置及安装" class="headerlink" title="第二章 环境配置及安装"></a>第二章 环境配置及安装</h1><p>&#160; &#160; &#160; &#160;本章主要叙述TensorFlow所需的环境配置，包括Python语言环境的配置和TensorFlow自身的环境配置。TensorFlow支持Python，C/C++ 3种编程语言，但是部分API仅支持Python，因此本报告中的环境配置和示例代码均基于Python. TensorFlow支持Linux，Mac OS X 2种操作系统，由于Linux在当下编程环境中经常使用，因此本报告中的操作系统均指Ubuntu16.04LTS，最新版本的Ubuntu系统（本报告完成前）。<br><a id="more"></a></p>
 <h2 id="2-1-Python环境安装"><a href="#2-1-Python环境安装" class="headerlink" title="2.1 Python环境安装"></a>2.1 Python环境安装</h2><p>&#160; &#160; &#160; &#160;一般情况下，Linux都会预装 Python，但是预装的Python版本一般较低，Ubuntu16.04LTS桌面版中预装的Python版本为Python2.7.2.目前Python比较流行的版本为Python3.5，因此本小节主要叙述Python3.5的安装，安装方式采用apt-get. apt-get是一条Linux命令，适用于deb包管理式的操作系统，主要用于自动从互联网的软件仓库中搜索、安装、升级、卸载软件或操作系统。采用apt-get 方式安装Python3方便，快捷。<br>&#160; &#160; &#160; &#160;需要使用apt-get首先需要确定Linux操作系统中的套件资讯是最新的。要确定的最佳方法就是执行一次apt-get update 命令更新最新的套件资讯。命令行见下图4.<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog2/4/2016-08-09%2011-41-32%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center>   </p>
 <p><center>图4：Python环境安装步骤1</center><br>&#160; &#160; &#160; &#160;使用apt-get更新完套件资讯后，执行apt-get install命令安装Python3.5.命令行见下图5.</p>

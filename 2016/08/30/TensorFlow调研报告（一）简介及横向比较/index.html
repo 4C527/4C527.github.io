@@ -6,23 +6,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>TensorFlow调研报告（一）简介及横向比较 | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="（Jason Cheng 原创，未经许可不可转载）
-第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行">
+  <meta name="description" content="下一篇：TensorFlow调研报告（二）环境配置及安装（Jason Cheng 原创，未经许可不可转载）
+第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow调研报告（一）简介及横向比较">
 <meta property="og:url" content="http://yoursite.com/2016/08/30/TensorFlow调研报告（一）简介及横向比较/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="（Jason Cheng 原创，未经许可不可转载）
-第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行">
+<meta property="og:description" content="下一篇：TensorFlow调研报告（二）环境配置及安装（Jason Cheng 原创，未经许可不可转载）
+第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog1part1/1.jpgb03533fa828ba61e9d9784754234970a304e596a.jpg">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog1part1/2.jpg%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-08-08%20%E4%B8%8B%E5%8D%883.19.47.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog1part1/3.jpg160422062880001.png
 ">
-<meta property="og:updated_time" content="2016-09-18T07:10:19.000Z">
+<meta property="og:updated_time" content="2016-09-18T13:46:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow调研报告（一）简介及横向比较">
-<meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
-第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行">
+<meta name="twitter:description" content="下一篇：TensorFlow调研报告（二）环境配置及安装（Jason Cheng 原创，未经许可不可转载）
+第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练">
 <meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog1part1/1.jpgb03533fa828ba61e9d9784754234970a304e596a.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
@@ -225,7 +225,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>（Jason Cheng 原创，未经许可不可转载）</p>
+        <p><a href="https://4c527.github.io/2016/08/31/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%8C%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%AE%89%E8%A3%85/" target="_blank" rel="external">下一篇：TensorFlow调研报告（二）环境配置及安装</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
 <h1 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>&#160; &#160; &#160; &#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行了广泛的研究包括非监督学习、语言表示、图像分类模型和目标检测、视频分类、语音识别、序列预测、行人检测、强化学习等等。另外，超过50个Google 内部的团队和其他公司也已经和Google Brain 团队开展合作，在众多产品中部署了使用DistBelief 的深度神经网络，包括 Google Search、广告产品、语音识别系统、Google Photos、Google Maps 和街景、Google 翻译、YouTube 和很多其他的产品。   </p>
 <a id="more"></a>
 <p>&#160; &#160; &#160; &#160;基于Google的工程师使用DistBelief 的经验和对于期望用来训练和使用神经网络的系统特性和需求更加完备地理解，Google的工程师构建了TensorFlow——第二代大规模机器学习模型的实现和部署的系统。TensorFlow 使用通过类似数据流模型的计算，将这些计算映射到不同的硬件平台上，例如TensorFlow可以在包含一个或者多个GPU 显卡的，装有Android或iOS 的单个机器上进行计算，也可以在数百台包含数千个 GPU 的大规模系统上训练和计算。<br>对比 DistBelief，TensorFlow 的编程模型更加灵活，性能也更好，支持在大规模的异构硬件平台上训练，同时可以使用更多模型。在最新版本中，TensorFlow发布了分布式版本，支持在分布式环境中进行并行训练和计算，脱离了单机项目的局限，性能大大提高了。</p>

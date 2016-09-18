@@ -6,22 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>TensorFlow调研报告（六）TensorFlow基本运作流程 | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="（Jason Cheng 原创，未经许可不可转载）
-第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 N">
+  <meta name="description" content="上一篇：TensorFlow调研报告（五）TensorBoard的使用下一篇：TensorFlow调研报告（七）总结与展望（Jason Cheng 原创，未经许可不可转载）
+第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow调研报告（六）TensorFlow基本运作流程">
 <meta property="og:url" content="http://yoursite.com/2016/09/18/TensorFlow调研报告（六）TensorFlow基本运作流程/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="（Jason Cheng 原创，未经许可不可转载）
-第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 N">
+<meta property="og:description" content="上一篇：TensorFlow调研报告（五）TensorBoard的使用下一篇：TensorFlow调研报告（七）总结与展望（Jason Cheng 原创，未经许可不可转载）
+第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/57/57.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/58/58.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/59/chart1.png">
-<meta property="og:updated_time" content="2016-09-18T13:20:25.000Z">
+<meta property="og:updated_time" content="2016-09-18T13:35:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow调研报告（六）TensorFlow基本运作流程">
-<meta name="twitter:description" content="（Jason Cheng 原创，未经许可不可转载）
-第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 N">
+<meta name="twitter:description" content="上一篇：TensorFlow调研报告（五）TensorBoard的使用下一篇：TensorFlow调研报告（七）总结与展望（Jason Cheng 原创，未经许可不可转载）
+第四章 TensorFlow基本运作流程4.1 TensorFlow基本运作流程&amp;#160; &amp;#160; &amp;#160; &amp;#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计">
 <meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog6/57/57.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
@@ -224,7 +224,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>（Jason Cheng 原创，未经许可不可转载）</p>
+        <p><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%94%EF%BC%89TensorBoard%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_blank" rel="external">上一篇：TensorFlow调研报告（五）TensorBoard的使用</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%B8%83%EF%BC%89%E6%80%BB%E7%BB%93%E4%B8%8E%E5%B1%95%E6%9C%9B/" target="_blank" rel="external">下一篇：TensorFlow调研报告（七）总结与展望</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
 <h1 id="第四章-TensorFlow基本运作流程"><a href="#第四章-TensorFlow基本运作流程" class="headerlink" title="第四章 TensorFlow基本运作流程"></a>第四章 TensorFlow基本运作流程</h1><h2 id="4-1-TensorFlow基本运作流程"><a href="#4-1-TensorFlow基本运作流程" class="headerlink" title="4.1 TensorFlow基本运作流程"></a>4.1 TensorFlow基本运作流程</h2><p>&#160; &#160; &#160; &#160;TensorFlow的运算流程由一个有向图描述，这个图由一些节点集合组成。该图表达了数据流计算，图中有一些不同类型的节点来保持和更新数据状态。同时TensorFlow通过分支及循环控制结构来控制运算过程，类似于 Naiad （一种流体模拟软件 ）的行为方式。客户一般都会使用 TensorFlow支持的前端语言（C++或者Python）构建一个计算图。在图56中展示了一段样例，在例子中使用 Python语言构建并执行了一个 TensorFlow的计算图。<a id="more"></a></p>
 <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog6/57/57.png" width="80%"></center><center>图57：TensorFlow计算图示例代码</center>  
 
