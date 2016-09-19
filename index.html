@@ -111,7 +111,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a>
+						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/数据结构，Tree/" style="font-size: 10px;">数据结构，Tree</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a>
 					</div>
 				</section>
 				
@@ -180,6 +180,67 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-浅谈二叉树与递归（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/19/浅谈二叉树与递归（一）/" class="article-date">
+  	<time datetime="2016-09-19T02:51:40.000Z" itemprop="datePublished">2016-09-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/19/浅谈二叉树与递归（一）/">浅谈二叉树与递归（一）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%85%AD%EF%BC%89TensorFlow%E5%9F%BA%E6%9C%AC%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B/">下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程</a><br>（Jason Cheng 原创，未经许可不可转载）     </p>
+<h1 id="浅谈二叉树与递归（一）从一道leetcode-easy说起"><a href="#浅谈二叉树与递归（一）从一道leetcode-easy说起" class="headerlink" title="浅谈二叉树与递归（一）从一道leetcode easy说起"></a>浅谈二叉树与递归（一）从一道leetcode easy说起</h1><p>&#160; &#160; &#160; &#160;首先放上二叉树的定义：<br>&#160; &#160; &#160; &#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。二叉树常被用于实现二叉查找树和二叉堆。（具体定义可以参考任意一本数据结构教材）。 二叉树图形如下图表示：
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构，Tree/">数据结构，Tree</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/09/19/浅谈二叉树与递归（一）/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-TensorFlow调研报告（七）总结与展望" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -574,7 +635,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><a href="https://4c527.github.io/2016/08/31/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%8C%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%AE%89%E8%A3%85/">下一篇：TensorFlow调研报告（二）环境配置及安装</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
-<h1 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>&#160; &#160; &#160; &#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行了广泛的研究包括非监督学习、语言表示、图像分类模型和目标检测、视频分类、语音识别、序列预测、行人检测、强化学习等等。另外，超过50个Google 内部的团队和其他公司也已经和Google Brain 团队开展合作，在众多产品中部署了使用DistBelief 的深度神经网络，包括 Google Search、广告产品、语音识别系统、Google Photos、Google Maps 和街景、Google 翻译、YouTube 和很多其他的产品。   </p>
+<h1 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>&#160; &#160; &#160; &#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行了广泛的研究包括非监督学习、语言表示、图像分类模型和目标检测、视频分类、语音识别、序列预测、行人检测、强化学习等等。另外，超过50个Google 内部的团队和其他公司也已经和Google Brain 团队开展合作，在众多产品中部署了使用DistBelief 的深度神经网络，包括 Google Search、广告产品、语音识别系统、Google Photos、Google Maps 和街景、Google 翻译、YouTube 和很多其他的产品。<br>
       
     </div>
     
