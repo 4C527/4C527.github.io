@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>浅谈二叉树与递归（二） | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
+前序，中序，后序的递归/非递归实现&amp;#160; &amp;#160; &amp;#160; &amp;#160;谈到树与递归的关系，遍历树的算法是一个经典，也是各大互联网公司常考题型。&amp;#160; &amp;#160; &amp;#160; &amp;#160;遍历树算法基本上分为前序，中序，后序，层序几种，本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈二叉树与递归（二）">
+<meta property="og:url" content="http://yoursite.com/2016/09/20/浅谈二叉树与递归（二）/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
+前序，中序，后序的递归/非递归实现&amp;#160; &amp;#160; &amp;#160; &amp;#160;谈到树与递归的关系，遍历树的算法是一个经典，也是各大互联网公司常考题型。&amp;#160; &amp;#160; &amp;#160; &amp;#160;遍历树算法基本上分为前序，中序，后序，层序几种，本">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog8/1/b58f8c5494eef01fb1192796e0fe9925bc317d57.jpg">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog8/2/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-09-19%20%E4%B8%8B%E5%8D%888.29.41.png">
+<meta property="og:updated_time" content="2016-09-20T02:12:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈二叉树与递归（二）">
+<meta name="twitter:description" content="下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
+前序，中序，后序的递归/非递归实现&amp;#160; &amp;#160; &amp;#160; &amp;#160;谈到树与递归的关系，遍历树的算法是一个经典，也是各大互联网公司常考题型。&amp;#160; &amp;#160; &amp;#160; &amp;#160;遍历树算法基本上分为前序，中序，后序，层序几种，本">
+<meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog8/1/b58f8c5494eef01fb1192796e0fe9925bc317d57.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/leetcode">leetcode</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 15px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 15px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/数据结构/" style="font-size: 15px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/leetcode">leetcode</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-浅谈二叉树与递归（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/20/浅谈二叉树与递归（二）/" class="article-date">
+  	<time datetime="2016-09-20T02:12:01.000Z" itemprop="datePublished">2016-09-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅谈二叉树与递归（二）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tree/">Tree</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%85%AD%EF%BC%89TensorFlow%E5%9F%BA%E6%9C%AC%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B/" target="_blank" rel="external">下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程</a><br>（Jason Cheng 原创，未经许可不可转载）     </p>
+<h1 id="前序，中序，后序的递归-非递归实现"><a href="#前序，中序，后序的递归-非递归实现" class="headerlink" title="前序，中序，后序的递归/非递归实现"></a>前序，中序，后序的递归/非递归实现</h1><p>&#160; &#160; &#160; &#160;谈到树与递归的关系，遍历树的算法是一个经典，也是各大互联网公司常考题型。<br>&#160; &#160; &#160; &#160;遍历树算法基本上分为前序，中序，后序，层序几种，本篇仅关注前三种。前三种算法都可以通过递归/非递归两种方式实现，但是从难度上来看，非递归实现三种遍历都偏难，而且易出错，递归实现遍历是一个简单靠谱的选择（但是公司面试时面试官很可能指定采用递归还是非递归）。<br>&#160; &#160; &#160; &#160;首先给出前序遍历，中序遍历，后序遍历的特性：<br>&#160; &#160; &#160; &#160;前序遍历：<br>&#160; &#160; &#160; &#160;  1.访问根节点<br>&#160; &#160; &#160; &#160;    2.前序遍历左子树<br>  &#160; &#160; &#160; &#160;  3.前序遍历右子树<br>&#160; &#160; &#160; &#160;中序遍历：<br> &#160; &#160; &#160; &#160;   1.中序遍历左子树<br> &#160; &#160; &#160; &#160;   2.访问根节点<br> &#160; &#160; &#160; &#160;   3.中序遍历右子树<br>&#160; &#160; &#160; &#160;后序遍历：<br>&#160; &#160; &#160; &#160;    1.后序遍历左子树<br> &#160; &#160; &#160; &#160;   2.后序遍历右子树<br>&#160; &#160; &#160; &#160;    3.访问根节点<br>&#160; &#160; &#160; &#160;举个栗子表示：    </p>
+<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog8/1/b58f8c5494eef01fb1192796e0fe9925bc317d57.jpg" width="60%"></center><br>&#160; &#160; &#160; &#160;这棵二叉树的前序，中序，后序遍历输出分别为：<br>&#160; &#160; &#160; &#160;前序遍历:<br>&#160; &#160; &#160; &#160;A B D G H E C K F I J<br>&#160; &#160; &#160; &#160;中序遍历:<br>&#160; &#160; &#160; &#160;G D H B E A K C I J F<br>&#160; &#160; &#160; &#160;后序遍历:<br>&#160; &#160; &#160; &#160;G H D E B K J I F C A<br>&#160; &#160; &#160; &#160;现在给出leetcode原题（前序）：</p>
+<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog8/2/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-09-19%20%E4%B8%8B%E5%8D%888.29.41.png" width="75%"></center><br>&#160; &#160; &#160; &#160;如果用递归的思想解决这个问题，那么很好解决，先将root节点保存到vector当中，再遍历左子树，再遍历右子树即可。为了递归方便，可以定义一个helper函数。代码如下（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode *left;</div><div class="line"> *     TreeNode *right;</div><div class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">helper</span><span class="params">(TreeNode* root)</span> </span>&#123;</div><div class="line">          <span class="keyword">if</span>(!root) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            vec.push_back(root -&gt; val);<span class="comment">//先将root节点保存到vector当中</span></div><div class="line">            helper(root -&gt; left);<span class="comment">//再遍历左子树</span></div><div class="line">            helper(root -&gt; right);<span class="comment">//再遍历右子树</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; preorderTraversal(TreeNode* root) &#123;</div><div class="line">       helper(root);</div><div class="line">       <span class="keyword">return</span> vec;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;非递归思想解决这个问题，一个大概的思路是用栈来存储接下来要访问的节点。代码如下（C++）：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode *left;</div><div class="line"> *     TreeNode *right;</div><div class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; preorderTraversal(TreeNode* root) &#123;</div><div class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</div><div class="line">        <span class="keyword">if</span>(!root)</div><div class="line">        <span class="keyword">return</span> vec;</div><div class="line">        <span class="built_in">stack</span>&lt;TreeNode*&gt; s;</div><div class="line">        s.push(root);</div><div class="line">        <span class="keyword">while</span>(!s.empty()) &#123;</div><div class="line">            TreeNode *temp = s.top();</div><div class="line">            s.pop();</div><div class="line">            vec.push_back(temp -&gt; val); </div><div class="line">            <span class="keyword">if</span>(temp -&gt; right) &#123;</div><div class="line">                s.push(temp -&gt; right);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(temp -&gt; left) &#123;</div><div class="line">                s.push(temp -&gt; left);</div><div class="line">            &#125;        </div><div class="line">        &#125;</div><div class="line">       <span class="keyword">return</span> vec; </div><div class="line">    &#125;   </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>&#160; &#160; &#160; &#160;leetcode原题（中序）的题目描述和递归实现代码略去，题目跟前序几乎一致，只是需要的遍历顺序不同。而实现代码跟前序也很相似，只要理解了递归遍历二叉树的思想就可以解出。<br>&#160; &#160; &#160; &#160;现在只给出非递归实现中序遍历的代码，一个大概的思路同样是用栈，但是实现细节与前序遍历有所不同。代码如下（C++）：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode *left;</div><div class="line"> *     TreeNode *right;</div><div class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; inorderTraversal(TreeNode* root) &#123;</div><div class="line">         <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</div><div class="line">         <span class="keyword">if</span>(!root) </div><div class="line">         <span class="keyword">return</span> vec;</div><div class="line">         TreeNode *temp = root;</div><div class="line">         <span class="built_in">stack</span>&lt;TreeNode *&gt; s;</div><div class="line">         <span class="keyword">while</span>(temp !=<span class="literal">NULL</span> || !s.empty()) &#123;</div><div class="line">             <span class="keyword">while</span>(temp!=<span class="literal">NULL</span>) &#123;</div><div class="line">                 s.push(temp);</div><div class="line">                 temp = temp -&gt; left;</div><div class="line">             &#125;</div><div class="line">                 temp = s.top();</div><div class="line">                 s.pop();</div><div class="line">                 vec.push_back(temp-&gt; val);</div><div class="line">                 temp = temp -&gt; right;</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">return</span> vec;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>&#160; &#160; &#160; &#160;同样的原因，leetcode原题（中序）的题目描述和递归实现代码也略去。现在给出非递归实现后序遍历的代码，一个大概的思路是利用栈，但与前序、中序遍历不同的是，除了利用栈来存储接下来要访问的节点，我们还需要采用一个标志位来判断一个节点是否已经被访问过。代码如下（C++）：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode *left;</div><div class="line"> *     TreeNode *right;</div><div class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; postorderTraversal(TreeNode* root) &#123;</div><div class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</div><div class="line">        <span class="keyword">if</span>(!root) &#123;</div><div class="line">            <span class="keyword">return</span> vec;</div><div class="line">        &#125;</div><div class="line">        TreeNode *temp = root;</div><div class="line">        TreeNode *pre = <span class="literal">NULL</span>;<span class="comment">//标志位，标记节点是否已被访问</span></div><div class="line">        <span class="built_in">stack</span>&lt;TreeNode *&gt; s;</div><div class="line">        <span class="keyword">while</span>(temp != <span class="literal">NULL</span> || !s.empty()) &#123;</div><div class="line">            <span class="keyword">while</span>(temp != <span class="literal">NULL</span>) &#123;</div><div class="line">                s.push(temp);</div><div class="line">                temp = temp -&gt; left;</div><div class="line">            &#125;</div><div class="line">            temp = s.top();</div><div class="line">            <span class="keyword">if</span>(temp -&gt; right == <span class="literal">NULL</span> || temp -&gt; right == pre) &#123;</div><div class="line">                vec.push_back(temp -&gt; val);</div><div class="line">                pre = temp;</div><div class="line">                s.pop();</div><div class="line">                temp = <span class="literal">NULL</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                temp = temp -&gt; right;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> vec;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/19/浅谈二叉树与递归（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅谈二叉树与递归（一）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="浅谈二叉树与递归（二）" data-title="浅谈二叉树与递归（二）" data-url="http://yoursite.com/2016/09/20/浅谈二叉树与递归（二）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
