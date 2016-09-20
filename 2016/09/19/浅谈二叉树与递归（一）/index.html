@@ -6,22 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>浅谈二叉树与递归（一） | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
-从一道leetcode easy说起&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先放上二叉树的定义：&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left sub">
+  <meta name="description" content="下一篇：浅谈二叉树与递归（二）（Jason Cheng 原创，未经许可不可转载）     
+从一道leetcode easy说起&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先放上二叉树的定义：&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈二叉树与递归（一）">
 <meta property="og:url" content="http://yoursite.com/2016/09/19/浅谈二叉树与递归（一）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
-从一道leetcode easy说起&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先放上二叉树的定义：&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left sub">
+<meta property="og:description" content="下一篇：浅谈二叉树与递归（二）（Jason Cheng 原创，未经许可不可转载）     
+从一道leetcode easy说起&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先放上二叉树的定义：&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subt">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog7/1/20131206141836-722390134.jpg">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog7/2/00e93901213fb80ec11a956235d12f2eb83894b8.jpg">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog7/3/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-09-19%20%E4%B8%8A%E5%8D%8810.29.33.png">
-<meta property="og:updated_time" content="2016-09-19T03:11:07.000Z">
+<meta property="og:updated_time" content="2016-09-20T02:19:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈二叉树与递归（一）">
-<meta name="twitter:description" content="下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）     
-从一道leetcode easy说起&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先放上二叉树的定义：&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left sub">
+<meta name="twitter:description" content="下一篇：浅谈二叉树与递归（二）（Jason Cheng 原创，未经许可不可转载）     
+从一道leetcode easy说起&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先放上二叉树的定义：&amp;#160; &amp;#160; &amp;#160; &amp;#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subt">
 <meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog7/1/20131206141836-722390134.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
@@ -228,7 +228,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%85%AD%EF%BC%89TensorFlow%E5%9F%BA%E6%9C%AC%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B/" target="_blank" rel="external">下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程</a><br>（Jason Cheng 原创，未经许可不可转载）     </p>
+        <p><a href="https://4c527.github.io/2016/09/20/%E6%B5%85%E8%B0%88%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%8E%E9%80%92%E5%BD%92%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">下一篇：浅谈二叉树与递归（二）</a><br>（Jason Cheng 原创，未经许可不可转载）     </p>
 <h1 id="从一道leetcode-easy说起"><a href="#从一道leetcode-easy说起" class="headerlink" title="从一道leetcode easy说起"></a>从一道leetcode easy说起</h1><p>&#160; &#160; &#160; &#160;首先放上二叉树的定义：<br>&#160; &#160; &#160; &#160;在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。二叉树常被用于实现二叉查找树和二叉堆。（具体定义可以参考任意一本数据结构教材）。 二叉树图形如下图表示：<a id="more"></a></p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog7/1/20131206141836-722390134.jpg" width="40%"></center><br>&#160; &#160; &#160; &#160;然后放上递归的定义：<br>&#160; &#160; &#160; &#160;程序调用自身的编程技巧称为递归（recursion）。递归做为一种算法在程序设计语言中广泛应用。 一个过程或函数在其定义或说明中有直接或间接调用自身的一种方法，它通常把一个大型复杂的问题层层转化为一个与原问题相似的规模较小的问题来求解，递归策略只需少量的程序就可描述出解题过程所需要的多次重复计算，大大地减少了程序的代码量。递归的能力在于用有限的语句来定义对象的无限集合。一般来说，递归需要有边界条件、递归前进段和递归返回段。当边界条件不满足时，递归前进；当边界条件满足时，递归返回。一个递归的简单示意图如下图：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog7/2/00e93901213fb80ec11a956235d12f2eb83894b8.jpg" width="46%"></center><br>&#160; &#160; &#160; &#160;简单地说，递归，就是在运行的过程中调用自己。<br>&#160; &#160; &#160; &#160;构成递归需具备的条件：<br>&#160; &#160; &#160; &#160;1. 子问题须与原始问题为同样的事，且更为简单；<br>&#160; &#160; &#160; &#160;2. 不能无限制地调用本身，须有个出口，化简为非递归状况处理。</p>
