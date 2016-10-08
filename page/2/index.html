@@ -113,7 +113,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 13.33px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 16.67px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/数据结构/" style="font-size: 16.67px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a> <a href="/tags/链表/" style="font-size: 10px;">链表</a>
+						<a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 15px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a> <a href="/tags/链表/" style="font-size: 12.5px;">链表</a>
 					</div>
 				</section>
 				
@@ -184,6 +184,67 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-TensorFlow调研报告（四）基于CNN实现MNIST识别" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/" class="article-date">
+  	<time datetime="2016-09-18T06:45:39.000Z" itemprop="datePublished">2016-09-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/">TensorFlow调研报告（四）基于CNN实现MNIST识别</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/09/05/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%B8%89%EF%BC%89%E5%9F%BA%E4%BA%8Esoftmax%20%E5%9B%9E%E5%BD%92%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/">上一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%94%EF%BC%89TensorBoard%E7%9A%84%E4%BD%BF%E7%94%A8/">下一篇：TensorFlow调研报告（五）TensorBoard的使用</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
+<h2 id="3-2-基于CNN（卷积神经网络）实现MNIST手写数字识别"><a href="#3-2-基于CNN（卷积神经网络）实现MNIST手写数字识别" class="headerlink" title="3.2 基于CNN（卷积神经网络）实现MNIST手写数字识别"></a>3.2 基于CNN（卷积神经网络）实现MNIST手写数字识别</h2><h3 id="3-2-1-CNN的基本概念与优点"><a href="#3-2-1-CNN的基本概念与优点" class="headerlink" title="3.2.1 CNN的基本概念与优点"></a>3.2.1 CNN的基本概念与优点</h3><p>&#160; &#160; &#160; &#160;CNN（卷积神经网络）是近年发展起来，并引起广泛重视的一种高效识别方法。20世纪60年代，Hubel和Wiesel在研究猫脑皮层中用于局部敏感和方向选择的神经元时发现其独特的网络结构可以有效地降低反馈神经网络的复杂性，继而提出了卷积神经网络（Convolutional Neural Networks, 简称CNN）。现在，CNN已经成为众多科学领域的研究热点之一，特别是在模式分类领域，由于该网络避免了对图像的复杂前期预处理，可以直接输入原始图像，因而得到了更为广泛的应用。
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/卷积神经网络/">卷积神经网络</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-TensorFlow调研报告（三）基于softmax 回归实现MNIST识别" class="article article-type-post" itemscope itemprop="blogPost">
   
