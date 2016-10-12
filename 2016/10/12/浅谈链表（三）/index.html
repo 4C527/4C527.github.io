@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>浅谈链表（三） | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇：浅谈链表（二）下一篇：浅谈链表（四）（Jason Cheng 原创，未经许可不可转载）       
+判断链表是否有环&amp;#160; &amp;#160; &amp;#160; &amp;#160;判断链表有环已经是一道经典问题了，基本上一旦问到链表的题，判断是否有环这一题八成会被考到，倒不是因为代码上实现比较复杂，而是解题思路比较难想，需要一点“灵机一动”，而一旦知道解题思路，代码实现上就没有任何难度。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈链表（三）">
+<meta property="og:url" content="http://yoursite.com/2016/10/12/浅谈链表（三）/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="上一篇：浅谈链表（二）下一篇：浅谈链表（四）（Jason Cheng 原创，未经许可不可转载）       
+判断链表是否有环&amp;#160; &amp;#160; &amp;#160; &amp;#160;判断链表有环已经是一道经典问题了，基本上一旦问到链表的题，判断是否有环这一题八成会被考到，倒不是因为代码上实现比较复杂，而是解题思路比较难想，需要一点“灵机一动”，而一旦知道解题思路，代码实现上就没有任何难度。">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog13/1/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-10-11%20%E4%B8%8B%E5%8D%885.44.56.png">
+<meta property="og:updated_time" content="2016-10-12T01:37:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈链表（三）">
+<meta name="twitter:description" content="上一篇：浅谈链表（二）下一篇：浅谈链表（四）（Jason Cheng 原创，未经许可不可转载）       
+判断链表是否有环&amp;#160; &amp;#160; &amp;#160; &amp;#160;判断链表有环已经是一道经典问题了，基本上一旦问到链表的题，判断是否有环这一题八成会被考到，倒不是因为代码上实现比较复杂，而是解题思路比较难想，需要一点“灵机一动”，而一旦知道解题思路，代码实现上就没有任何难度。">
+<meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog13/1/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-10-11%20%E4%B8%8B%E5%8D%885.44.56.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/leetcode">leetcode</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/JDK源码/" style="font-size: 10px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 13.33px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 16.67px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 16.67px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a> <a href="/tags/链表/" style="font-size: 13.33px;">链表</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/leetcode">leetcode</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-浅谈链表（三）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/12/浅谈链表（三）/" class="article-date">
+  	<time datetime="2016-10-12T01:35:48.000Z" itemprop="datePublished">2016-10-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅谈链表（三）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/链表/">链表</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/10/08/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">上一篇：浅谈链表（二）</a><br><a href="https://4c527.github.io/2016/09/30/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="external">下一篇：浅谈链表（四）</a><br>（Jason Cheng 原创，未经许可不可转载）       </p>
+<h1 id="判断链表是否有环"><a href="#判断链表是否有环" class="headerlink" title="判断链表是否有环"></a>判断链表是否有环</h1><p>&#160; &#160; &#160; &#160;判断链表有环已经是一道经典问题了，基本上一旦问到链表的题，判断是否有环这一题八成会被考到，倒不是因为代码上实现比较复杂，而是解题思路比较难想，需要一点“灵机一动”，而一旦知道解题思路，代码实现上就没有任何难度。<a id="more"></a><br>&#160; &#160; &#160; &#160;leetcode原题如下：</p>
+<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog13/1/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-10-11%20%E4%B8%8B%E5%8D%885.44.56.png" width="80%"></center><br>&#160; &#160; &#160; &#160;这道题的大意就是判断一个链表是否有环，但是值得注意的是，环不一定是从头节点就开始，而可能是从链表中间某个节点开始。<br>&#160; &#160; &#160; &#160;除了题干描述外，还有一个Follow up：是否可以不利用额外的空间，当然，这里不使用额外空间指的是不使用空间复杂度超过O（1）的空间，而不是指的一个变量都不可以声明。<br>&#160; &#160; &#160; &#160;首先考虑最简单的暴力解法：对于每个节点，都定义一个指针指向该节点，然后开始遍历，判断是否能再次回到该节点。这样显然是可行的，但是时间复杂度为:O(n*n)，显然不是一个高效的解法。<br>&#160; &#160; &#160; &#160;那是否有更高效一点的算法？注意到，题目下的那个Follow up：不使用额外空间。leetcode中的Follow up并不是一个强制要求，就是说，我们可以提出了一个使用额外空间的解法，来降低过高的时间复杂度。<br>&#160; &#160; &#160; &#160;这个算法是这样的：不用对于每个节点都遍历一遍链表，而是只遍历一遍，将所有节点都加入到一个Set当中，每加入一个节点，都判断一下已经遍历过的节点数目与Set中的节点数目是否相等，如果环的话，一定会向Set中加入重复的节点，这时候就会不相等，return false就可以;如果直到尾节点都一直相等，显然是没有环的，return true. 这个算法的时间复杂度为O(n),空间复杂度为O(n).<br>&#160; &#160; &#160; &#160;然而，这仍然不是最好的解法，leetcode给出了Follow up，就表示已定存在一种最好的解法，使时间复杂度为O(n),空间复杂度为O(1).<br>&#160; &#160; &#160; &#160;再考虑一个完美的算法之前，我们先考虑一个现实生活中的问题，现在假设我们有一条跑道，2个人在赛跑，我们作为观众，不知道跑道是直道还是环道，那我们如何判断跑道是否有环呢？<br>&#160; &#160; &#160; &#160;很显然，我们让一个人跑的慢，一个人跑的快，假设是直道，则在终点前慢的永远追不上快的；假设是环道，则慢的一定会“追上”快的（因为已经被甩了一圈了）。<br>&#160; &#160; &#160; &#160;考虑完这个问题，这道题已经有最好的解法了：2个指针，一快一慢，快指针能跟慢指针再重合，则链表有环，否则没有。整体思路就是这么简单而巧妙。<br>&#160; &#160; &#160; &#160;代码如下（C++），结合以上思路，理解起来很容易，注意一下边界条件即可：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for singly-linked list.</div><div class="line"> * class ListNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     ListNode next;</div><div class="line"> *     ListNode(int x) &#123;</div><div class="line"> *         val = x;</div><div class="line"> *         next = null;</div><div class="line"> *     &#125;</div><div class="line"> * &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> boolean <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</div><div class="line">        ListNode fast = head;</div><div class="line">        ListNode slow = head;</div><div class="line">        <span class="keyword">while</span>(fast != null &amp;&amp; fast.next != null &amp;&amp; slow != null) &#123;</div><div class="line">            fast = fast.next.next;</div><div class="line">            slow = slow.next;</div><div class="line">            <span class="keyword">if</span>(fast == slow) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;这样，时间复杂度和空间复杂度都被控制到最优了，这种解法也是链表有环问题的标准答案。顺带一提，快慢指针，或者说双指针法，也是解算法题时常用的技巧，这里暂且按下不表。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/14/浅析JDK源码之集合框架（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          浅析JDK源码之集合框架（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/08/浅谈链表（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅谈链表（二）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="浅谈链表（三）" data-title="浅谈链表（三）" data-url="http://yoursite.com/2016/10/12/浅谈链表（三）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
