@@ -6,20 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>浅析JDK源码之集合框架（一） | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下一篇：待定（Jason Cheng 原创，未经许可不可转载）      
+  <meta name="description" content="下一篇：浅析JDK源码之集合框架（二）（Jason Cheng 原创，未经许可不可转载）      
 JAVA集合框架总体结构&amp;#160; &amp;#160; &amp;#160; &amp;#160;作为JAVA攻城狮，阅读JDK源码是从入门迈向进阶的重要一步。而JDK源码中，集合框架部分是相对简单的，而且由于跟数据结构相关，这也是非常重要的一部分代码。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅析JDK源码之集合框架（一）">
 <meta property="og:url" content="http://yoursite.com/2016/10/17/浅析JDK源码之集合框架（一）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="下一篇：待定（Jason Cheng 原创，未经许可不可转载）      
+<meta property="og:description" content="下一篇：浅析JDK源码之集合框架（二）（Jason Cheng 原创，未经许可不可转载）      
 JAVA集合框架总体结构&amp;#160; &amp;#160; &amp;#160; &amp;#160;作为JAVA攻城狮，阅读JDK源码是从入门迈向进阶的重要一步。而JDK源码中，集合框架部分是相对简单的，而且由于跟数据结构相关，这也是非常重要的一部分代码。">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog12/1/032204405873864.jpg">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png">
-<meta property="og:updated_time" content="2016-10-16T13:49:56.000Z">
+<meta property="og:updated_time" content="2016-10-24T09:43:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析JDK源码之集合框架（一）">
-<meta name="twitter:description" content="下一篇：待定（Jason Cheng 原创，未经许可不可转载）      
+<meta name="twitter:description" content="下一篇：浅析JDK源码之集合框架（二）（Jason Cheng 原创，未经许可不可转载）      
 JAVA集合框架总体结构&amp;#160; &amp;#160; &amp;#160; &amp;#160;作为JAVA攻城狮，阅读JDK源码是从入门迈向进阶的重要一步。而JDK源码中，集合框架部分是相对简单的，而且由于跟数据结构相关，这也是非常重要的一部分代码。">
 <meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog12/1/032204405873864.jpg">
   
@@ -227,7 +227,7 @@ JAVA集合框架总体结构&amp;#160; &amp;#160; &amp;#160; &amp;#160;作为JAV
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/09/30/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="external">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载）      </p>
+        <p><a href="https://4c527.github.io/2016/10/24/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">下一篇：浅析JDK源码之集合框架（二）</a><br>（Jason Cheng 原创，未经许可不可转载）      </p>
 <h1 id="JAVA集合框架总体结构"><a href="#JAVA集合框架总体结构" class="headerlink" title="JAVA集合框架总体结构"></a>JAVA集合框架总体结构</h1><p>&#160; &#160; &#160; &#160;作为JAVA攻城狮，阅读JDK源码是从入门迈向进阶的重要一步。而JDK源码中，集合框架部分是相对简单的，而且由于跟数据结构相关，这也是非常重要的一部分代码。<a id="more"></a><br>本篇文章只简单介绍什么是JAVA集合框架，并给出JAVA集合框架的树形结构图。从下一篇博客开始才正式分析集合框架的源码。<br>&#160; &#160; &#160; &#160;首先放上JAVA集合框架的定义：<br>&#160; &#160; &#160; &#160;数据结构对程序设计有着深远的影响，在面向过程的C语言中，数据库结构用struct来描述，而在面向对象的编程中，数据结构是用类来描述的，并且包含有对该数据结构操作的方法。<br>&#160; &#160; &#160; &#160;在Java语言中，Java语言的设计者对常用的数据结构和算法做了一些规范（接口）和实现（具体实现接口的类）。所有抽象出来的数据结构和操作（算法）统称为Java集合框架（Java Collection Framework）。<br>&#160; &#160; &#160; &#160;Java程序员在具体应用时，不必考虑数据结构和算法实现细节，只需要用这些类创建出来一些对象，然后直接应用就可以了，这样就大大提高了编程效率。<br>而在集合框架当中，各个类的树形结构如下图所示：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog12/1/032204405873864.jpg" width="50%"></center><br>&#160; &#160; &#160; &#160;这是简化后的集合类树形结构图。可以看出，JAVA的集合框架主要可以分为两类，Collection和Map,Collection中可再分为List和Set，学习过数据结构的应该都知道这些集合类的意义。 </p>
 <p>&#160; &#160; &#160; &#160;接下来简要介绍一些重要的集合类与集合接口的概念。(按照上图结构依次介绍)   </p>
