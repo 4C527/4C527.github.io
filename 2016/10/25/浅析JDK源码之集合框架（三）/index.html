@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>浅析JDK源码之集合框架（三） | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇：浅析JDK源码之集合框架（二）下一篇：待定（Jason Cheng 原创，未经许可不可转载）      
+List接口源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇继Collection接口之后再来介绍一个比较重要的接口，List接口。为了让大家对集合框架中的继承体系有一个更直观的认识，这里继续放上集合的结构图：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析JDK源码之集合框架（三）">
+<meta property="og:url" content="http://yoursite.com/2016/10/25/浅析JDK源码之集合框架（三）/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="上一篇：浅析JDK源码之集合框架（二）下一篇：待定（Jason Cheng 原创，未经许可不可转载）      
+List接口源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇继Collection接口之后再来介绍一个比较重要的接口，List接口。为了让大家对集合框架中的继承体系有一个更直观的认识，这里继续放上集合的结构图：">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png">
+<meta property="og:updated_time" content="2016-10-25T06:42:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析JDK源码之集合框架（三）">
+<meta name="twitter:description" content="上一篇：浅析JDK源码之集合框架（二）下一篇：待定（Jason Cheng 原创，未经许可不可转载）      
+List接口源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇继Collection接口之后再来介绍一个比较重要的接口，List接口。为了让大家对集合框架中的继承体系有一个更直观的认识，这里继续放上集合的结构图：">
+<meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/leetcode">leetcode</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/JDK源码/" style="font-size: 13.33px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 13.33px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 20px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 20px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a> <a href="/tags/链表/" style="font-size: 16.67px;">链表</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/leetcode">leetcode</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-浅析JDK源码之集合框架（三）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/25/浅析JDK源码之集合框架（三）/" class="article-date">
+  	<time datetime="2016-10-25T06:40:44.000Z" itemprop="datePublished">2016-10-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅析JDK源码之集合框架（三）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JDK源码/">JDK源码</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/10/24/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">上一篇：浅析JDK源码之集合框架（二）</a><br><a href="https://4c527.github.io/2016/09/30/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="external">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载）      </p>
+<h1 id="List接口源码分析"><a href="#List接口源码分析" class="headerlink" title="List接口源码分析"></a>List接口源码分析</h1><p>&#160; &#160; &#160; &#160;本篇继Collection接口之后再来介绍一个比较重要的接口，List接口。为了让大家对集合框架中的继承体系有一个更直观的认识，这里继续放上集合的结构图：<a id="more"></a></p>
+<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png" width="70%"></center><br>&#160; &#160; &#160; &#160;事实上，在这篇博客的前一篇，通过对于Colleciton接口源码的分析，我们已经发现，对于Collection来说：实际上已经提供了对于对象进行添加，删除，访问（通过迭代器）等等一些列的基本操作。那么，为什么还要在其之下，继续划出一个List体系呢？通过查看List接口源码（或者通过查看上图），我们可以发现List接口继承自Colleciton接口。由此也就不难想到，List接口是在Collection接口的基础上，又添加了一些额外的操作方法。而这些额外的操作方法，其核心的用途概括来说都是：在容器的中间插入和移除元素（即操作角标），这也是List集合的一个特点。<br>&#160; &#160; &#160; &#160;查看Java的API说明文档，你会发现对于List接口的说明当中，会发现类似下面的几段话：<br>&#160; &#160; &#160; &#160;List接口在iterator、add、remove、equals 和 hashCode 方法的协定上加了一些其他约定，超过了 Collection 接口中所包括的。<br>&#160; &#160; &#160; &#160;List接口提供了特殊的迭代器，称为ListIterator，除了允许Iterator接口提供的正常操作外，该迭代器还允许元素插入和替换，以及双向访问。<br>&#160; &#160; &#160; &#160;接下来，我们通过解析List方法声明的方式来分析List源码，由于List继承自Collection，我们只分析List接口当中额外添加的方法。（本代码基于JDK1.8）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(<span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span></span>;</div><div class="line">    <span class="comment">//将指定collection中的所有元素都插入到列表中的指定位置</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">replaceAll</span><span class="params">(UnaryOperator&lt;E&gt; operator)</span> </span>&#123;</div><div class="line">      Objects.requireNonNull(operator);</div><div class="line">      <span class="keyword">final</span> ListIterator&lt;E&gt; li = <span class="keyword">this</span>.listIterator();</div><div class="line">      <span class="keyword">while</span> (li.hasNext()) &#123;</div><div class="line">          li.set(operator.apply(li.next()));</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//根据UnaryOperator（一元运算符）的一元算法修改每一个元素，迭代参数就是元素本身</span></div><div class="line">    <span class="comment">//函数实现并不是很难，构建来一个迭代器，遍历整个list，对每一个元素都执行operator.apply()        </span></div><div class="line">    <span class="comment">//举个栗子：li.replaceAll(ele -&gt; ele + 2);每个元素变成自己+2</span></div><div class="line">    <span class="comment">//这是Java1.8中新增内容，属于Lamda表达式／函数式编程的范畴，这里不再详细分析。</span></div><div class="line">    </div><div class="line">    <span class="meta">@SuppressWarnings</span>(&#123;<span class="string">"unchecked"</span>, <span class="string">"rawtypes"</span>&#125;)</div><div class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparator&lt;? <span class="keyword">super</span> E&gt; c)</span> </span>&#123;</div><div class="line">        Object[] a = <span class="keyword">this</span>.toArray();</div><div class="line">        Arrays.sort(a, (Comparator) c);</div><div class="line">        ListIterator&lt;E&gt; i = <span class="keyword">this</span>.listIterator();</div><div class="line">        <span class="keyword">for</span> (Object e : a) &#123;</div><div class="line">            i.next();</div><div class="line">            i.set((E) e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//自定义排序Arrays类中提供的方法可直接实现数组的排序、搜索等</span></div><div class="line">    <span class="comment">//这里的函数实现思路如下：第一步，先将list利用toArray()方法转换成数组</span></div><div class="line">    <span class="comment">//第二步，利用Arrays类中的自定义排序对数组进行排序</span></div><div class="line">    <span class="comment">//（Arrays类是一个工具类，它提供的类方法可直接实现数组的排序、搜索等）</span></div><div class="line">    <span class="comment">//第三步，遍历整个数组，将数组转换成list</span></div><div class="line">    </div><div class="line">    <span class="function">E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</div><div class="line">    <span class="comment">//返回列表中指定位置的元素</span></div><div class="line">    </div><div class="line">    <span class="function">E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">    <span class="comment">//用指定元素替换列表中指定位置的元素</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span></span>;</div><div class="line">    <span class="comment">//在列表的指定位置插入指定元素</span></div><div class="line">    </div><div class="line">    <span class="function">E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</div><div class="line">    <span class="comment">//移除列表中指定位置的元素</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="comment">//返回此列表中第一次出现的指定元素的索引；如果此列表不包含该元素，则返回 -1</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object o)</span></span>;</div><div class="line">    <span class="comment">//返回此列表中最后出现的指定元素的索引；如果列表不包含此元素，则返回 -1</span></div><div class="line"></div><div class="line">    <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">//返回此列表元素的列表迭代器（按适当顺序）</span></div><div class="line"></div><div class="line">    <span class="function">ListIterator&lt;E&gt; <span class="title">listIterator</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</div><div class="line">    <span class="comment">//返回列表中元素的列表迭代器（按适当顺序），从列表的指定位置开始</span></div><div class="line"></div><div class="line">    <span class="function">List&lt;E&gt; <span class="title">subList</span><span class="params">(<span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span></span>;</div><div class="line">    <span class="comment">//返回列表中指定的 fromIndex（包括 ）和 toIndex（不包括）之间的部分视图</span></div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&#160; &#160; &#160; &#160;由源码我们可以看出，List接口相对于Collction接口，对某些方法进行了重载，并添加了一些新方法。<br>&#160; &#160; &#160; &#160;而从以上源码分析我们可以看出，这些方法它们存在一个共性，就是大部分都存在着针对于角标进行操作的特点。<br>&#160; &#160; &#160; &#160;这也就是为什么在开头我们提出，List出现的核心用途就是：在容器的中间插入和移除元素。 </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/10/24/浅析JDK源码之集合框架（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅析JDK源码之集合框架（二）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="浅析JDK源码之集合框架（三）" data-title="浅析JDK源码之集合框架（三）" data-url="http://yoursite.com/2016/10/25/浅析JDK源码之集合框架（三）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
