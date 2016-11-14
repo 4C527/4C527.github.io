@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>浅析JDK源码之集合框架（四） | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇：浅析JDK源码之集合框架（三）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+ArrayList源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;前面我们已经分析了Java集合框架的整体结构和2个基础接口的代码，了解了Collection与List体系。但严格的来说，前面我们所做的都还停留在“纸上谈兵”的阶段。之所以这么说，是因为我们前面说到的都是两个接口内的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析JDK源码之集合框架（四）">
+<meta property="og:url" content="http://yoursite.com/2016/11/14/浅析JDK源码之集合框架（四）/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="上一篇：浅析JDK源码之集合框架（三）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+ArrayList源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;前面我们已经分析了Java集合框架的整体结构和2个基础接口的代码，了解了Collection与List体系。但严格的来说，前面我们所做的都还停留在“纸上谈兵”的阶段。之所以这么说，是因为我们前面说到的都是两个接口内的">
+<meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png">
+<meta property="og:updated_time" content="2016-11-14T07:41:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析JDK源码之集合框架（四）">
+<meta name="twitter:description" content="上一篇：浅析JDK源码之集合框架（三）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+ArrayList源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;前面我们已经分析了Java集合框架的整体结构和2个基础接口的代码，了解了Collection与List体系。但严格的来说，前面我们所做的都还停留在“纸上谈兵”的阶段。之所以这么说，是因为我们前面说到的都是两个接口内的">
+<meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/leetcode">leetcode</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/JDK源码/" style="font-size: 16.67px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 13.33px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 20px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 20px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 20px;">深度学习</a> <a href="/tags/链表/" style="font-size: 16.67px;">链表</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/leetcode">leetcode</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-浅析JDK源码之集合框架（四）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/14/浅析JDK源码之集合框架（四）/" class="article-date">
+  	<time datetime="2016-11-14T07:40:44.000Z" itemprop="datePublished">2016-11-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅析JDK源码之集合框架（四）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JDK源码/">JDK源码</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/10/24/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">上一篇：浅析JDK源码之集合框架（三）</a><br><a href="https://4c527.github.io/2016/09/30/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="external">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+<h1 id="ArrayList源码分析"><a href="#ArrayList源码分析" class="headerlink" title="ArrayList源码分析"></a>ArrayList源码分析</h1><p>&#160; &#160; &#160; &#160;前面我们已经分析了Java集合框架的整体结构和2个基础接口的代码，了解了Collection与List体系。但严格的来说，前面我们所做的都还停留在“纸上谈兵”的阶段。之所以这么说，是因为我们前面说到的都是两个接口内的方法声明，即没有具体的方法实现。<a id="more"></a><br>&#160; &#160; &#160; &#160;那么，接下来的这一篇我们就开始分析真正的框架类源码ArrayList，一个实际开发中经常用到的容器类。通过以这个类为切入点，我们接下来会逐个分析所有集合框架的源码。<br>&#160; &#160; &#160; &#160;为了让大家对集合框架中的继承体系有一个更直观的认识，这里继续放上集合的结构图：</p>
+<p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png" width="70%"></center><br>&#160; &#160; &#160; &#160;接下来，我们就来具体分析ArrayList类。（代码基于JDK1.8）<br>&#160; &#160; &#160; &#160;为了分析过程中思路清晰，我们先从该容器类的继承结构说起。打开ArrayList的源码，首先看到这样的类声明：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;</div><div class="line">        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</div><div class="line">```   </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;其中：    </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;Cloneable接口是用于实现对象的复制，Serializable接口用于让对象支持实现序列化。这2个接口稍微了解Java的人都知道它们的具体功能，它们在这里并非我们关心的重点，故不多加赘述。    </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;而RandomAccess是一个比较有意思的接口，因为它的源码如下：     </div><div class="line">```Java</div><div class="line">public interface RandomAccess &#123;</div><div class="line">&#125;</div><div class="line">```    </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;就是一个空接口，那么它存在的意义是什么？    </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;通过阅读注释我们可以发现，这个接口的出现是为了用来对容器类进行类型判断，从而选择合适的算法提高集合的循环效率的。    </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;通常在对List特别是大规模的List的遍历算法中，我们要尽量来判断是属于RandomAccess(如ArrayList)还是Sequence List (如LinkedList）（RandomAccess和Sequence List的具体区别请读者自行查阅相关资料）。     </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;这样做的原因在于，因为底层不同的数据结构，造成适合RandomAccess List的遍历算法，用在Sequence List上就差别很大。       </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;接下来是就正式开始来分析ArrayList的源码。     </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先是ArrayList的3种构造器：           </div><div class="line">```Java </div><div class="line">    public ArrayList(int initialCapacity) &#123;</div><div class="line">        if (initialCapacity &gt; 0) &#123;</div><div class="line">            this.elementData = new Object[initialCapacity];</div><div class="line">            //elementData就是一个Object［］数组</div><div class="line">        &#125; else if (initialCapacity == 0) &#123;</div><div class="line">            this.elementData = EMPTY_ELEMENTDATA;//一个空数组</div><div class="line">        &#125; else &#123;</div><div class="line">            throw new IllegalArgumentException("Illegal Capacity: "+</div><div class="line">                                               initialCapacity);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    public ArrayList() &#123;</div><div class="line">        this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</div><div class="line">        //同样默认初始化为一个空数组</div><div class="line">    &#125;</div><div class="line">    public ArrayList(Collection&lt;? extends E&gt; c) &#123;</div><div class="line">        elementData = c.toArray();</div><div class="line">        if ((size = elementData.length) != 0) &#123;</div><div class="line">            // c.toArray might (incorrectly) not return Object[] (see 6260652)</div><div class="line">            if (elementData.getClass() != Object[].class)</div><div class="line">                elementData = Arrays.copyOf(elementData, size, Object[].class);</div><div class="line">        &#125; else &#123;</div><div class="line">            // replace with empty array.</div><div class="line">            this.elementData = EMPTY_ELEMENTDATA;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">```   </div><div class="line"></div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;代码很简单。构造器的内容，我们很容易能够弄清楚：        </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;第一种构造器，可以接受一个int型的参数，它是用来指定ArrayList内部的数组elementData的初始大小的。如果该参数传入的值小于0，则会抛出一个IllegalArgumentException异常。</div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;第二种构造器，直接将内部数组elementData初始化为空数组。在JDK1.8之前，ArrayList的第二种构造器有一些不同，它直接就在内部调用第一种构造器，并将大小参数值指定为10。JDK1.8可能是出于降低空间复杂度的考虑，改进了第二种构造器的写法。    </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;第三种构造器，接收Collection接口类型的参数。然后通过调用其toArray方法，将其转换为数组，赋值给内部的elementData。如果elementData数组的大小不为0的话，则将element设置为大小为，否则仍将elementData设为空数组。       </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;看完了构造器部分，接下来按照ArrayList常见操作来分析源码。    </div><div class="line">&amp;#160; &amp;#160; &amp;#160; &amp;#160;首先是插入元素。我们来分析一下有关插入操作的一系列代码：   </div><div class="line">```Java</div><div class="line">    public void ensureCapacity(int minCapacity) &#123;</div><div class="line">        int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</div><div class="line">            // any size if not default element table</div><div class="line">            ? 0</div><div class="line">            // larger than default for default empty table. It's already</div><div class="line">            // supposed to be at default size.</div><div class="line">            : DEFAULT_CAPACITY;</div><div class="line">    </div><div class="line">        if (minCapacity &gt; minExpand) &#123;</div><div class="line">            ensureExplicitCapacity(minCapacity);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>&#160; &#160; &#160; &#160;这段代码的目的，（以及接下来的一些关于Capacity的代码），都是为了增加此ArrayList中元素的容量，以确保它至少能够容纳最小容量参数所指定的元素数。也就是说，该方法就是用来修改容器的大小的。该段代码的大意是为了使采用ArrayList()构造函数进行构造的对象最大扩容参数不能小于DEFAULT_CAPACITY，即10，否则不扩容；使采用ArrayList(int initialCapacity)构造函数进行构造的最大扩容参数不能小于0，否则不扩容。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</div><div class="line">        minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ensureExplicitCapacity(minCapacity);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&#160; &#160; &#160; &#160;这段代码的大意是确保使采用ArrayList()构造函数进行构造的对象最小扩容量为DEFAULT_CAPACITY,即10和用户传的扩容参数minCapacity中较大值，即最小扩容量为10.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</div><div class="line">    modCount++;<span class="comment">//记录ArrayList被修改的次数</span></div><div class="line"></div><div class="line">    <span class="comment">// overflow-conscious code</span></div><div class="line">    <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</div><div class="line">        grow(minCapacity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;modCount这个变量继承自AbstractList类当中的一个成员变量。而它的作用则是：记录已从结构上修改此列表的次数。从结构上修改是指更改列表的大小，或者打乱列表等。所以，很自然的，当我们每次扩容的时候，自然也就会改变容器的现有结构。故让该变量自增。如果扩容参数不小于原来容器大小，则视为合法，调用grow(minCapacity)进行扩容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</div><div class="line">    <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</div><div class="line">        Integer.MAX_VALUE :</div><div class="line">        MAX_ARRAY_SIZE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;这段代码主要是为了使在扩容参数到达最大边界时确保不会越界。如果扩容参数小于0，则报OutOfMemoryError()错误，如果大于规定的最大容量，则返回Integer.MAX_VALUE，如果不大于，则返回规定的最大容量MAX_ARRAY_SIZE。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;     </div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</div><div class="line">    <span class="comment">// overflow-conscious code</span></div><div class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</div><div class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</div><div class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</div><div class="line">        newCapacity = minCapacity;</div><div class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</div><div class="line">        newCapacity = hugeCapacity(minCapacity);</div><div class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></div><div class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;grow(minCapacity)是真正给ArrayList容器扩容的函数。<br>&#160; &#160; &#160; &#160;首先，int oldCapacity = elementData.length;这行代码通过内部数组的现有长度得到容器的现有容量。<br>&#160; &#160; &#160; &#160;然后，会通过int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);来计算初步得到一个新的容量值（即旧容量的1.5倍，注意这个右移操作，比直接除以2效率高）。如果计算得到的容量值小于我们传入的指定的新的容量值，那么就使用我们传入的容量值。否则就使用计算得到的值作为新的容量值。<br>&#160; &#160; &#160; &#160;那么，为什么有一个传入的指定值minCapacity了，还额外做了这个计算newCapacity的运算呢？<br>&#160; &#160; &#160; &#160;其实不难想象到，这样做是为了提高程序效率。假设我们通过构造函数构建了一个ArrayList（10），那么容器内部就有了一个大小为10的初始数组了。这个时候，我们开始循环的对容器进行插入元素操作。不难想象当执行到第11次add的时候，就需要扩充数组长度了。那么根据后面add方法自身的定义，这里传入的minCapacity值就是11.而通过计算得到的newCapacity = 10 ＋ 10 &gt;&gt; 2 = 15.到这里就很容易看到好处了，因为如果不进行上面的运算：那么当超过数组的初始长度后，每次add都需要执行数组扩充的工作。而因为newCapacity的计算，数组直接扩容到15，在第11次插入直到执行到第15次插入，都不需要进行扩充了。<br>&#160; &#160; &#160; &#160;然后，计算得到的newCapacity如果超过了规定的最大容量，则赋值为上面的hugeCapacity(int minCapacity)。<br>&#160; &#160; &#160; &#160;最后，根据得到的最新的newCapacity更新elementData，用Arrays工具类中的copyOf函数将elementData扩容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></div><div class="line">    elementData[size++] = e;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">rangeCheckForAdd</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (index &gt; size || index &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(outOfBoundsMsg(index));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</div><div class="line">    rangeCheckForAdd(index);</div><div class="line"></div><div class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></div><div class="line">    System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>,</div><div class="line">                     size - index);</div><div class="line">    elementData[index] = element;</div><div class="line">    size++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;分析了以上一系列与扩容相关的函数之后，我们终于可以谈到add(E e)方法了。首先调用扩容函数ensureCapacityInternal(size + 1);确保内部数组完成扩充，之后的代码是简单的elementData[size++] = e;即在数组完成扩充后，进行元素插入。同时在完成添加过后，将代表容器内当前存放的元素量的变量size的值进行一次自增。<br>&#160; &#160; &#160; &#160;然后是通过下标来插入元素的插入函数add(int index, E element)，首先有一个合法性判断，index大于容器容量或者小于0都将抛出越界异常。<br>&#160; &#160; &#160; &#160;插入元素具体过程如下：将原本数组中下标index开始的元素按指定位数（根据要插入的元素个数决定）进行位移，用新元素替换原index下标上的元素，这样，插入元素的操作就完成了。而这其实也解释了：为什么相对于LinkedList来说，ArrayList在执行元素的增删操作时，效率低很多。这是因为在数组结构下，每当涉及到在容器中间增删元素，就会有大量的元素发生位移。<br>&#160; &#160; &#160; &#160;另外，对于插入元素的方法来说，还有另外两个，它们分别是：<br>addAll(Collection&lt; ? extends E &gt; c) 以及addAll(int index, Collection&lt; ? extends E &gt; c)。在这里，就不再分析它们的源码了，跟之前的2个add操作类似，它们的核心思想都是一样的：都是先判断是否需要对现有的数组进行扩充；然后根据具体情况（插入单个元素还是多个，在中间插入还是在后端插入）进行元素的插入保存工作。<br>&#160; &#160; &#160; &#160;经过以上一系列分析，ArrayList容器的插入部分代码就分析完了。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/10/25/浅析JDK源码之集合框架（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅析JDK源码之集合框架（三）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="浅析JDK源码之集合框架（四）" data-title="浅析JDK源码之集合框架（四）" data-url="http://yoursite.com/2016/11/14/浅析JDK源码之集合框架（四）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
