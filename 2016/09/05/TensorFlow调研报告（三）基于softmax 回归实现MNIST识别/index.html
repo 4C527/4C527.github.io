@@ -10,7 +10,7 @@
 第三章 使用指南3.1 基于softmax 回归实现MNIST手写数字识别3.1.1 MNIST简介&amp;#160; &amp;#160; &amp;#160; &amp;#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow调研报告（三）基于softmax回归实现MNIST识别">
-<meta property="og:url" content="http://yoursite.com/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/index.html">
+<meta property="og:url" content="https://4c527.github.io/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
 <meta property="og:description" content="上一篇：TensorFlow调研报告（二）环境配置及安装下一篇：TensorFlow调研报告（四）基于CNN实现MNIST识别（Jason Cheng 原创，未经许可不可转载）
 第三章 使用指南3.1 基于softmax 回归实现MNIST手写数字识别3.1.1 MNIST简介&amp;#160; &amp;#160; &amp;#160; &amp;#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的">
@@ -244,7 +244,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/08/31/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%8C%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%AE%89%E8%A3%85/" target="_blank" rel="external">上一篇：TensorFlow调研报告（二）环境配置及安装</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%9B%9B%EF%BC%89%E5%9F%BA%E4%BA%8ECNN%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/" target="_blank" rel="external">下一篇：TensorFlow调研报告（四）基于CNN实现MNIST识别</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
+        <p><a href="https://4c527.github.io/2016/08/31/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%8C%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%AE%89%E8%A3%85/">上一篇：TensorFlow调研报告（二）环境配置及安装</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%9B%9B%EF%BC%89%E5%9F%BA%E4%BA%8ECNN%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/">下一篇：TensorFlow调研报告（四）基于CNN实现MNIST识别</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
 <h1 id="第三章-使用指南"><a href="#第三章-使用指南" class="headerlink" title="第三章 使用指南"></a>第三章 使用指南</h1><h2 id="3-1-基于softmax-回归实现MNIST手写数字识别"><a href="#3-1-基于softmax-回归实现MNIST手写数字识别" class="headerlink" title="3.1 基于softmax 回归实现MNIST手写数字识别"></a>3.1 基于softmax 回归实现MNIST手写数字识别</h2><h3 id="3-1-1-MNIST简介"><a href="#3-1-1-MNIST简介" class="headerlink" title="3.1.1 MNIST简介"></a>3.1.1 MNIST简介</h3><p>&#160; &#160; &#160; &#160;MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。<br>&#160; &#160; &#160; &#160;它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图，图片都被转成二进制放到了文件里面，用户可以直接从二进制文件中读取图片数据，进行数据预处理以及数据分析。本章主要基于MNIST这一经典数据库进行机器学习。<br><a id="more"></a></p>
 <h3 id="3-1-2-softmax回归模型介绍"><a href="#3-1-2-softmax回归模型介绍" class="headerlink" title="3.1.2 softmax回归模型介绍"></a>3.1.2 softmax回归模型介绍</h3><p>&#160; &#160; &#160; &#160;MNIST的每一张图片都表示一个数字，从0到9，我们用x表示图片，用y表示图片x表示图片是某个数字的概率。我在机器学习训练过程中，我们希望能得到给定图片代表每个数字的概率，比如说，我们的模型可能推测一张包含9的图片代表数字9的概率是80% 但是判断它是8的概率是5%，然后我们就可以根据图片代表数字i的概率y来进行分类。<br>对于给定的输入图片 x 它代表的是数字 i 的证据可以表示为：<br><img src="http://ocpreuqkv.bkt.clouddn.com/blog3/0/0.png" width="57%"><br>&#160; &#160; &#160; &#160;其中 Wi 代表权重，bi 代表数字 i 的偏置量（因为输入往往会带有一些无关的干扰量，所以我们需要偏置量）j 代表给定图片 x 的像素索引，用于像素求和。然后用softmax函数可以把这些证据转换成概率 y：</p>
 <p><img src="http://ocpreuqkv.bkt.clouddn.com/blog3/1/1.png" width="50%"><br>&#160; &#160; &#160; &#160;这里的softmax可以看成是一个激励（activation）函数或者链接（link）函数，把我们定义的线性函数的输出转换成我们想要的格式，也就是关于10个数字类的概率分布。因此，给定一张图片，它对于每一个数字的吻合度可以被softmax函数转换成为一个概率值。softmax函数可以定义为：<br>&#160; &#160; &#160; <img src="http://ocpreuqkv.bkt.clouddn.com/blog3/2/2.png" width="55%"><br>&#160; &#160; &#160; &#160;展开等式右边的子式，可以得到：<br>&#160; <img src="http://ocpreuqkv.bkt.clouddn.com/blog3/3/3.png" width="54%"><br>&#160; &#160; &#160; &#160;对于softmax回归模型可以用下面的图15解释，对于输入的图片加权求和，再分别加上一个偏置量，最后再输入到softmax函数中得到概率y：</p>
@@ -311,7 +311,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="TensorFlow调研报告（三）基于softmax 回归实现MNIST识别" data-title="TensorFlow调研报告（三）基于softmax回归实现MNIST识别" data-url="http://yoursite.com/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/"></div>
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（三）基于softmax 回归实现MNIST识别" data-title="TensorFlow调研报告（三）基于softmax回归实现MNIST识别" data-url="https://4c527.github.io/2016/09/05/TensorFlow调研报告（三）基于softmax 回归实现MNIST识别/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

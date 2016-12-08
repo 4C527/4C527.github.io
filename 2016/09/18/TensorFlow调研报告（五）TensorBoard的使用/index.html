@@ -10,7 +10,7 @@
 3.3 TensorBoard数据可视化的使用&amp;#160; &amp;#160; &amp;#160; &amp;#160;采用TensorFlow进行深度学习涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow调研报告（五）TensorBoard的使用">
-<meta property="og:url" content="http://yoursite.com/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/index.html">
+<meta property="og:url" content="https://4c527.github.io/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
 <meta property="og:description" content="上一篇：TensorFlow调研报告（四）基于CNN实现MNIST识别下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程（Jason Cheng 原创，未经许可不可转载）
 3.3 TensorBoard数据可视化的使用&amp;#160; &amp;#160; &amp;#160; &amp;#160;采用TensorFlow进行深度学习涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解">
@@ -237,7 +237,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%9B%9B%EF%BC%89%E5%9F%BA%E4%BA%8ECNN%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/" target="_blank" rel="external">上一篇：TensorFlow调研报告（四）基于CNN实现MNIST识别</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%85%AD%EF%BC%89TensorFlow%E5%9F%BA%E6%9C%AC%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B/" target="_blank" rel="external">下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
+        <p><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%9B%9B%EF%BC%89%E5%9F%BA%E4%BA%8ECNN%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/">上一篇：TensorFlow调研报告（四）基于CNN实现MNIST识别</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E5%85%AD%EF%BC%89TensorFlow%E5%9F%BA%E6%9C%AC%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B/">下一篇：TensorFlow调研报告（六）TensorFlow基本运作流程</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
 <h2 id="3-3-TensorBoard数据可视化的使用"><a href="#3-3-TensorBoard数据可视化的使用" class="headerlink" title="3.3 TensorBoard数据可视化的使用"></a>3.3 TensorBoard数据可视化的使用</h2><p>&#160; &#160; &#160; &#160;采用TensorFlow进行深度学习涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。<br>&#160; &#160; &#160; &#160;为了更方便 TensorFlow 程序的理解、调试与优化，TensorFlow中包含了一套叫做 TensorBoard的可视化工具。开发人员可以用 TensorBoard来展现TensorFlow 图像，绘制图像生成的定量指标图以及附加数据。<br>&#160; &#160; &#160; &#160;本节主要通过分析代码的方式阐述如何使用TensorBoard可视化工具，本次TensorBoard的使用基于3.1节中的基于softmax 回归实现MNIST手写数字识别代码。<a id="more"></a><br>&#160; &#160; &#160; &#160;（1）首先，在使用TensorBoard时，需要创建想汇总数据的 TensorFlow 图，然后再选择想在哪个节点进行汇总(summary)操作。在本实验中我们在希望记录权值(weights)和偏置量(bias)如何变化，通过向节点附加histogram_summary 操作来分别输出权值和偏置量（histogram表示矩阵型的变量，权值和偏置量都属于矩阵型变量）。然后我们需要给每个histogram_summary 分配一个有意义的标签，比如下图中的“weight”和“bias”。用python中的with语句来定义图中的命令域，例如本部分代码中设定1个大的命名域为layer1，2个小的命名域为weights和bias。代码如下图所示：</p>
 <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog5/45/2016-08-24%2011-13-42%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图45：TensorBoard使用代码1</center>       
 
@@ -328,7 +328,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="TensorFlow调研报告（五）TensorBoard的使用" data-title="TensorFlow调研报告（五）TensorBoard的使用" data-url="http://yoursite.com/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/"></div>
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（五）TensorBoard的使用" data-title="TensorFlow调研报告（五）TensorBoard的使用" data-url="https://4c527.github.io/2016/09/18/TensorFlow调研报告（五）TensorBoard的使用/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

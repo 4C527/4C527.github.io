@@ -10,7 +10,7 @@
 第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow调研报告（一）简介及横向比较">
-<meta property="og:url" content="http://yoursite.com/2016/08/30/TensorFlow调研报告（一）简介及横向比较/index.html">
+<meta property="og:url" content="https://4c527.github.io/2016/08/30/TensorFlow调研报告（一）简介及横向比较/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
 <meta property="og:description" content="下一篇：TensorFlow调研报告（二）环境配置及安装（Jason Cheng 原创，未经许可不可转载）
 第一章 绪论1.1 引言&amp;#160; &amp;#160; &amp;#160; &amp;#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练">
@@ -229,7 +229,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/08/31/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%8C%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%AE%89%E8%A3%85/" target="_blank" rel="external">下一篇：TensorFlow调研报告（二）环境配置及安装</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
+        <p><a href="https://4c527.github.io/2016/08/31/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%8C%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%AE%89%E8%A3%85/">下一篇：TensorFlow调研报告（二）环境配置及安装</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
 <h1 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>&#160; &#160; &#160; &#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行了广泛的研究包括非监督学习、语言表示、图像分类模型和目标检测、视频分类、语音识别、序列预测、行人检测、强化学习等等。另外，超过50个Google 内部的团队和其他公司也已经和Google Brain 团队开展合作，在众多产品中部署了使用DistBelief 的深度神经网络，包括 Google Search、广告产品、语音识别系统、Google Photos、Google Maps 和街景、Google 翻译、YouTube 和很多其他的产品。<br> <a id="more"></a><br>&#160; &#160; &#160; &#160;基于Google的工程师使用DistBelief 的经验和对于期望用来训练和使用神经网络的系统特性和需求更加完备地理解，Google的工程师构建了TensorFlow——第二代大规模机器学习模型的实现和部署的系统。TensorFlow 使用通过类似数据流模型的计算，将这些计算映射到不同的硬件平台上，例如TensorFlow可以在包含一个或者多个GPU 显卡的，装有Android或iOS 的单个机器上进行计算，也可以在数百台包含数千个 GPU 的大规模系统上训练和计算。<br>对比 DistBelief，TensorFlow 的编程模型更加灵活，性能也更好，支持在大规模的异构硬件平台上训练，同时可以使用更多模型。在最新版本中，TensorFlow发布了分布式版本，支持在分布式环境中进行并行训练和计算，脱离了单机项目的局限，性能大大提高了。</p>
 <p></p><p><br>本节部分内容引用自TensorFlow白皮书，Jeff Dean.</p>
 <h2 id="1-2-研究现状"><a href="#1-2-研究现状" class="headerlink" title="1.2 研究现状"></a>1.2 研究现状</h2><p>&#160; &#160; &#160; &#160;深度学习（Deep Learning）是机器学习研究中的一个新的领域，其动机在于建立、模拟人脑进行分析学习的神经网络，它模仿人脑的机制来解释数据，例如图像，声音和文本。[3] 深度学习也是近年机器学习领域的重大突破，有着广泛的应用前景，随着Google公开Google Brain计划，业界对深度学习的热情高涨。<br>深度学习把学习结构看作一个网络，它的核心思路如下：<br>&#160; &#160; &#160; &#160;- 无监督学习用于每一层网络的pre-train；<br>&#160; &#160; &#160; &#160;- 每次用无监督学习只训练一层，将其训练结果作为其高一层的输入；<br>&#160; &#160; &#160; &#160;- 用自顶而下的监督算法去调整所有层。<br>&#160; &#160; &#160; &#160;深度学习的学习模型图见图1。</p>
@@ -306,7 +306,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="TensorFlow调研报告（一）简介及横向比较" data-title="TensorFlow调研报告（一）简介及横向比较" data-url="http://yoursite.com/2016/08/30/TensorFlow调研报告（一）简介及横向比较/"></div>
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（一）简介及横向比较" data-title="TensorFlow调研报告（一）简介及横向比较" data-url="https://4c527.github.io/2016/08/30/TensorFlow调研报告（一）简介及横向比较/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

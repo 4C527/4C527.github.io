@@ -10,7 +10,7 @@
 3.2 基于CNN（卷积神经网络）实现MNIST手写数字识别3.2.1 CNN的基本概念与优点&amp;#160; &amp;#160; &amp;#160; &amp;#160;CNN（卷积神经网络）是近年发展起来，并引起广泛">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow调研报告（四）基于CNN实现MNIST识别">
-<meta property="og:url" content="http://yoursite.com/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/index.html">
+<meta property="og:url" content="https://4c527.github.io/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
 <meta property="og:description" content="上一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别下一篇：TensorFlow调研报告（五）TensorBoard的使用（Jason Cheng 原创，未经许可不可转载）
 3.2 基于CNN（卷积神经网络）实现MNIST手写数字识别3.2.1 CNN的基本概念与优点&amp;#160; &amp;#160; &amp;#160; &amp;#160;CNN（卷积神经网络）是近年发展起来，并引起广泛">
@@ -241,7 +241,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/09/05/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%B8%89%EF%BC%89%E5%9F%BA%E4%BA%8Esoftmax%20%E5%9B%9E%E5%BD%92%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/" target="_blank" rel="external">上一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%94%EF%BC%89TensorBoard%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_blank" rel="external">下一篇：TensorFlow调研报告（五）TensorBoard的使用</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
+        <p><a href="https://4c527.github.io/2016/09/05/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%B8%89%EF%BC%89%E5%9F%BA%E4%BA%8Esoftmax%20%E5%9B%9E%E5%BD%92%E5%AE%9E%E7%8E%B0MNIST%E8%AF%86%E5%88%AB/">上一篇：TensorFlow调研报告（三）基于softmax回归实现MNIST识别</a><br><a href="https://4c527.github.io/2016/09/18/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%94%EF%BC%89TensorBoard%E7%9A%84%E4%BD%BF%E7%94%A8/">下一篇：TensorFlow调研报告（五）TensorBoard的使用</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
 <h2 id="3-2-基于CNN（卷积神经网络）实现MNIST手写数字识别"><a href="#3-2-基于CNN（卷积神经网络）实现MNIST手写数字识别" class="headerlink" title="3.2 基于CNN（卷积神经网络）实现MNIST手写数字识别"></a>3.2 基于CNN（卷积神经网络）实现MNIST手写数字识别</h2><h3 id="3-2-1-CNN的基本概念与优点"><a href="#3-2-1-CNN的基本概念与优点" class="headerlink" title="3.2.1 CNN的基本概念与优点"></a>3.2.1 CNN的基本概念与优点</h3><p>&#160; &#160; &#160; &#160;CNN（卷积神经网络）是近年发展起来，并引起广泛重视的一种高效识别方法。20世纪60年代，Hubel和Wiesel在研究猫脑皮层中用于局部敏感和方向选择的神经元时发现其独特的网络结构可以有效地降低反馈神经网络的复杂性，继而提出了卷积神经网络（Convolutional Neural Networks, 简称CNN）。现在，CNN已经成为众多科学领域的研究热点之一，特别是在模式分类领域，由于该网络避免了对图像的复杂前期预处理，可以直接输入原始图像，因而得到了更为广泛的应用。<a id="more"></a><br>&#160; &#160; &#160; &#160;CNN是一种特殊的深层的神经网络模型，它的优点体现在两个方面，一方面它的神经元间的连接是非全连接的， 另一方面同一层中某些神经元之间的连接的权重是共享的（即相同的）。它的非全连接和权值共享的网络结构使之更类似于生物神经网络，降低了网络模型的复杂度（对于很难学习的深层结构来说，这是非常重要的），减少了权值的数量。</p>
 <h3 id="3-2-2-实现基于CNN的MNIST手写数字识别"><a href="#3-2-2-实现基于CNN的MNIST手写数字识别" class="headerlink" title="3.2.2 实现基于CNN的MNIST手写数字识别"></a>3.2.2 实现基于CNN的MNIST手写数字识别</h3><p>&#160; &#160; &#160; &#160;本节主要通过分析代码的方式阐述如何采用TensorFlow 实现基于CNN的MNIST手写数字识别。<br>&#160; &#160; &#160; &#160;数据预处理部分代码与3.1.3小节中完全一致，本节中不再赘述。<br>&#160; &#160; &#160; &#160;然后是训练部分代码：<br>&#160; &#160; &#160; &#160;（1）本部分代码主要是从input_data模块中导入数据，从tensorflow模块中导入工具包，初始化待训练图片训练集、标签集、权值和偏置量。本部分代码基本与3.1.3节中相同。<center><img src="http://ocpreuqkv.bkt.clouddn.com/blog4/29/2016-08-23%2009-14-16%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图29：训练部分代码1</center>          </p>
 <p>&#160; &#160; &#160; &#160;（2）为了创建这个模型，我们需要创建大量的权重和偏置项。这个模型中的权重在初始化时应该加入少量的噪声来打破对称性以及避免0梯度。由于我们使用的是ReLU神经元，因此比较好的做法是用一个较小的正数来初始化偏置项，以避免神经元节点输出恒为0的问题（dead neurons），因此权值采用正态分布进行初始化。代码如下图所示：<br> <center><img src="http://ocpreuqkv.bkt.clouddn.com/blog4/30/2016-08-23%2009-14-37%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" width="80%"></center><center>图30：训练部分代码2</center>          </p>
@@ -331,7 +331,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="TensorFlow调研报告（四）基于CNN实现MNIST识别" data-title="TensorFlow调研报告（四）基于CNN实现MNIST识别" data-url="http://yoursite.com/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/"></div>
+	<div class="ds-thread" data-thread-key="TensorFlow调研报告（四）基于CNN实现MNIST识别" data-title="TensorFlow调研报告（四）基于CNN实现MNIST识别" data-url="https://4c527.github.io/2016/09/18/TensorFlow调研报告（四）基于CNN实现MNIST识别/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

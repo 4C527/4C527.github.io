@@ -10,7 +10,7 @@
 一道巧妙的easy&amp;#160; &amp;#160; &amp;#160; &amp;#160;按惯例，首先放上链表的定义~">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈链表（一）">
-<meta property="og:url" content="http://yoursite.com/2016/09/30/浅谈链表（一）/index.html">
+<meta property="og:url" content="https://4c527.github.io/2016/09/30/浅谈链表（一）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
 <meta property="og:description" content="下一篇：浅谈链表（二）（Jason Cheng 原创，未经许可不可转载）          
 一道巧妙的easy&amp;#160; &amp;#160; &amp;#160; &amp;#160;按惯例，首先放上链表的定义~">
@@ -227,7 +227,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/10/08/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">下一篇：浅谈链表（二）</a><br>（Jason Cheng 原创，未经许可不可转载）          </p>
+        <p><a href="https://4c527.github.io/2016/10/08/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%BA%8C%EF%BC%89/">下一篇：浅谈链表（二）</a><br>（Jason Cheng 原创，未经许可不可转载）          </p>
 <h1 id="一道巧妙的easy"><a href="#一道巧妙的easy" class="headerlink" title="一道巧妙的easy"></a>一道巧妙的easy</h1><p>&#160; &#160; &#160; &#160;按惯例，首先放上链表的定义~    <a id="more"></a><br>&#160; &#160; &#160; &#160;链表是一种物理存储单元上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针链接次序实现的。链表由一系列结点（链表中每一个元素称为结点）组成，每个结点包括两个部分：一个是存储数据元素的数据域，另一个是存储下一个结点地址的指针域。一个普通的单向链表图形如下图表示：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog10/1/91ef76c6a7efce1b8d7e8131ae51f3deb58f65f7.jpg" width="80%"></center><br>&#160; &#160; &#160; &#160;链表常见的操作时间复杂度为：<br>&#160; &#160; &#160; &#160;（1）由于不必须按顺序存储，链表在插入的时候可以达到O(1)的复杂度，比线性表或者顺序表快得多；<br>&#160; &#160; &#160; &#160;（2）查找一个节点或者访问特定编号的节点则需要O(n)的时间，而线性表和顺序表相应的时间复杂度分别是O(logn)和O(1)；<br>&#160; &#160; &#160; &#160;（3）删除一个节点的时间复杂度也为O(1)复杂度，与插入操作的复杂度一样。<br>&#160; &#160; &#160; &#160;正文开始：<br>&#160; &#160; &#160; &#160;链表和树一样，也是各大互联网公司常考的题目，而且由于容易在细节，比如一些边界条件上犯错，常常采用白板手写或者是coding online的方式让面试者写出完整的代码。博主本人就曾被国内某B开头互联网公司、外企某S开头公司、以及南京一家非著名互联网公司J公司等面试过链表方面的题，都是需要写出完整代码，所以掌握链表这一基本且常考的数据结构很有必要。但是由于链表（主要是指单向链表）结构上还是相对简单，而且一些题型相对固定，所以还是很好提前做出准备。<br>&#160; &#160; &#160; &#160;本系列共分4篇，从leetcode中挑选几道有代表性的题来浅谈一下博主对链表的理解。<br>&#160; &#160; &#160; &#160;话不多说，首先放上leetcode原题：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog10/2/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-09-30%20%E4%B8%8B%E5%8D%883.09.11.png" width="65%"></center><br>&#160; &#160; &#160; &#160;简单地说，就是删除某个特定节点。<br>&#160; &#160; &#160; &#160;这题乍一看非常容易，链表常见操作中就包括了删除操作。删除操作的一个简单的伪代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for singly-linked list.</div><div class="line"> * struct ListNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     ListNode *next;</div><div class="line"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(ListNode* node)</span> </span>&#123;</div><div class="line">        node -&gt; next = node -&gt; next -&gt; next;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
@@ -289,7 +289,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="浅谈链表（一）" data-title="浅谈链表（一）" data-url="http://yoursite.com/2016/09/30/浅谈链表（一）/"></div>
+	<div class="ds-thread" data-thread-key="浅谈链表（一）" data-title="浅谈链表（一）" data-url="https://4c527.github.io/2016/09/30/浅谈链表（一）/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

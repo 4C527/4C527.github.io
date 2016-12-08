@@ -10,7 +10,7 @@
 ArrayList类源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;前面我们已经分析了Java集合框架的整体结构和2个基础接口的代码，了解了Collection与List体系。但严格的来说，前面我们所做的都还停留在“纸上谈兵”的阶段。之所以这么说，是因为我">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅析JDK源码之集合框架（四）">
-<meta property="og:url" content="http://yoursite.com/2016/11/14/浅析JDK源码之集合框架（四）/index.html">
+<meta property="og:url" content="https://4c527.github.io/2016/11/14/浅析JDK源码之集合框架（四）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
 <meta property="og:description" content="上一篇：浅析JDK源码之集合框架（三）下一篇：浅析JDK源码之集合框架（五）（Jason Cheng 原创，未经许可不可转载） 
 ArrayList类源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;前面我们已经分析了Java集合框架的整体结构和2个基础接口的代码，了解了Collection与List体系。但严格的来说，前面我们所做的都还停留在“纸上谈兵”的阶段。之所以这么说，是因为我">
@@ -226,7 +226,7 @@ ArrayList类源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;前面我们�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2016/10/24/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">上一篇：浅析JDK源码之集合框架（三）</a><br><a href="https://4c527.github.io/2016/11/17/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%94%EF%BC%89/" target="_blank" rel="external">下一篇：浅析JDK源码之集合框架（五）</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+        <p><a href="https://4c527.github.io/2016/10/24/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89/">上一篇：浅析JDK源码之集合框架（三）</a><br><a href="https://4c527.github.io/2016/11/17/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%94%EF%BC%89/">下一篇：浅析JDK源码之集合框架（五）</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
 <h1 id="ArrayList类源码分析"><a href="#ArrayList类源码分析" class="headerlink" title="ArrayList类源码分析"></a>ArrayList类源码分析</h1><p>&#160; &#160; &#160; &#160;前面我们已经分析了Java集合框架的整体结构和2个基础接口的代码，了解了Collection与List体系。但严格的来说，前面我们所做的都还停留在“纸上谈兵”的阶段。之所以这么说，是因为我们前面说到的都是两个接口内的方法声明，即没有具体的方法实现。<a id="more"></a><br>&#160; &#160; &#160; &#160;那么，接下来的这一篇我们就开始分析真正的框架类源码ArrayList，一个实际开发中经常用到的容器类。通过以这个类为切入点，我们接下来会逐个分析所有集合框架的源码。<br>&#160; &#160; &#160; &#160;为了让大家对集合框架中的继承体系有一个更直观的认识，这里继续放上集合的结构图：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog12/2/1352093418_6990.png" width="70%"></center><br>&#160; &#160; &#160; &#160;接下来，我们就来具体分析ArrayList类。（代码基于JDK1.8）<br>&#160; &#160; &#160; &#160;为了分析过程中思路清晰，我们先从该容器类的继承结构说起。打开ArrayList的源码，首先看到这样的类声明：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></div></pre></td></tr></table></figure></p>
 <p>&#160; &#160; &#160; &#160;其中：<br>&#160; &#160; &#160; &#160;Cloneable接口是用于实现对象的复制，Serializable接口用于让对象支持实现序列化。这2个接口稍微了解Java的人都知道它们的具体功能，它们在这里并非我们关心的重点，故不多加赘述。<br>&#160; &#160; &#160; &#160;而RandomAccess是一个比较有意思的接口，因为它的源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RandomAccess</span> </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -305,7 +305,7 @@ ArrayList类源码分析&amp;#160; &amp;#160; &amp;#160; &amp;#160;前面我们�
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="浅析JDK源码之集合框架（四）" data-title="浅析JDK源码之集合框架（四）" data-url="http://yoursite.com/2016/11/14/浅析JDK源码之集合框架（四）/"></div>
+	<div class="ds-thread" data-thread-key="浅析JDK源码之集合框架（四）" data-title="浅析JDK源码之集合框架（四）" data-url="https://4c527.github.io/2016/11/14/浅析JDK源码之集合框架（四）/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
