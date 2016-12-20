@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>浅析JDK源码之集合框架（七补） | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇：浅析JDK源码之集合框架（七）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+实现自己的HashMap类&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们分析了HashMap类的源码，作为程序员，看完代码自己造一个小轮子是很有必要的~所以在这一篇中我们就来实现自己的HashMap类。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析JDK源码之集合框架（七补）">
+<meta property="og:url" content="https://4c527.github.io/2016/12/20/浅析JDK源码之集合框架（七补）/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="上一篇：浅析JDK源码之集合框架（七）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+实现自己的HashMap类&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们分析了HashMap类的源码，作为程序员，看完代码自己造一个小轮子是很有必要的~所以在这一篇中我们就来实现自己的HashMap类。">
+<meta property="og:updated_time" content="2016-12-20T07:43:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析JDK源码之集合框架（七补）">
+<meta name="twitter:description" content="上一篇：浅析JDK源码之集合框架（七）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+实现自己的HashMap类&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们分析了HashMap类的源码，作为程序员，看完代码自己造一个小轮子是很有必要的~所以在这一篇中我们就来实现自己的HashMap类。">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/leetcode">leetcode</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 17.5px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 12.5px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 17.5px;">深度学习</a> <a href="/tags/链表/" style="font-size: 15px;">链表</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">吾当乘此羽葆盖车。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/leetcode">leetcode</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-浅析JDK源码之集合框架（七补）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/浅析JDK源码之集合框架（七补）/" class="article-date">
+  	<time datetime="2016-12-20T07:43:44.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅析JDK源码之集合框架（七补）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JDK源码/">JDK源码</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/12/01/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AD%EF%BC%89/">上一篇：浅析JDK源码之集合框架（七）</a><br><a href="https://4c527.github.io/2016/09/30/%E6%B5%85%E8%B0%88%E9%93%BE%E8%A1%A8%EF%BC%88%E4%B8%80%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+<h1 id="实现自己的HashMap类"><a href="#实现自己的HashMap类" class="headerlink" title="实现自己的HashMap类"></a>实现自己的HashMap类</h1><p>&#160; &#160; &#160; &#160;上一篇博客中我们分析了HashMap类的源码，作为程序员，看完代码自己造一个小轮子是很有必要的~所以在这一篇中我们就来实现自己的HashMap类。<a id="more"></a><br>&#160; &#160; &#160; &#160;主要操作包括Put(新增或者修改)，Get(查询)，Delete(删除)三个操作。Hash的过程利用了Object的hashcode()，也参考了Jdk1.8中的Hash算法。解决碰撞使用了链表法。<br>&#160; &#160; &#160; &#160;代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.csx.hashmap;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">16</span>;</div><div class="line">	<span class="comment">//当采用无参数的构造函数时，容量capacity被初始化为默认值16</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> capacity;</div><div class="line">	<span class="comment">//数组容量</span></div><div class="line">	<span class="comment">//在本代码中，HashMap是不进行扩容的，容量仅仅在构造时确定</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</div><div class="line">	<span class="comment">//HashMap中元素的个数</span></div><div class="line">	<span class="keyword">private</span> Node&lt;K, V&gt;[] buckets;</div><div class="line">	<span class="comment">//存放链表的位桶</span></div><div class="line">	<span class="comment">//很显然，本代码采用了拉链法实现</span></div><div class="line">	<span class="comment">//在Java 1.x中，都是用的拉链法解决Hash冲突</span></div><div class="line"></div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</div><div class="line">		<span class="comment">//存放键值对的数据结构Node</span></div><div class="line">		<span class="comment">//在本代码中，Node作为HashMap的内部类</span></div><div class="line">		<span class="keyword">private</span> K key;</div><div class="line">		<span class="keyword">private</span> V value;</div><div class="line">		<span class="keyword">private</span> Node&lt;K, V&gt; next;</div><div class="line">		<span class="comment">//很显然，它的成员变量包括键，值，指向下一个节点的指针next</span></div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(K key, V value)</span> </span>&#123;</div><div class="line">			<span class="keyword">this</span>.key = key;</div><div class="line">			<span class="keyword">this</span>.value = value;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> K <span class="title">getKey</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> key;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> V <span class="title">getValue</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> value;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(V value)</span> </span>&#123;</div><div class="line">			<span class="keyword">this</span>.value = value;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNext</span><span class="params">(Node&lt;K, V&gt; node)</span> </span>&#123;</div><div class="line">			<span class="keyword">this</span>.next = node;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> Node&lt;K, V&gt; <span class="title">getNext</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> next;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="keyword">this</span>(DEFAULT_CAPACITY);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//不含参数的构造函数1</span></div><div class="line">	<span class="comment">//这里直接调用默认的DEFAULT_CAPACITY对HashMap进行构造</span></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> capacity)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="keyword">if</span> (capacity &lt;= <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"Init wrong."</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> base = <span class="number">1</span>;</div><div class="line">		<span class="keyword">for</span> (; base &lt; capacity;) &#123;</div><div class="line">			base *= <span class="number">2</span>;</div><div class="line">		&#125;</div><div class="line">		buckets = <span class="keyword">new</span> Node[base];</div><div class="line">		<span class="comment">//一个值得注意的小细节，为什么不能是 buckets = new Node&lt;K,V&gt;[base];?</span></div><div class="line">		<span class="comment">//这是由于Java不支持泛型数组导致的</span></div><div class="line">		<span class="comment">//[1]具体来说，这是由于Java的泛型机制导致的</span></div><div class="line">		<span class="keyword">this</span>.capacity = base;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//含参数capacity的构造函数2</span></div><div class="line">	<span class="comment">//这里确定一个容量，为2的幂，并恰好大于用户传进的参数capacity</span></div><div class="line">	<span class="comment">//之所以采用2的幂作为容量是因为合数有更小的概率发生Hash冲突</span></div><div class="line">	<span class="comment">//这样，HashMap中的元素在位桶中的分布就会更加均匀</span></div><div class="line">	</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">Size</span><span class="params">()</span> </span>&#123;</div><div class="line">    	<span class="keyword">return</span> size;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> Boolean <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</div><div class="line">    	<span class="keyword">return</span> size == <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(K key, V value)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="comment">//put函数</span></div><div class="line">		<span class="keyword">if</span> (key == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"Key is null"</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">//这里做判空检查，不允许key为null</span></div><div class="line">		<span class="keyword">if</span> (buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)] == <span class="keyword">null</span>) &#123;</div><div class="line">		<span class="comment">//我们选用的Hash方法是采用key值的hashCode与容量-1相与的方式</span></div><div class="line">	    <span class="comment">//这也是HashMap在Java 1.x中普遍采用的Hash方式</span></div><div class="line">			Node&lt;K, V&gt; tempNode = <span class="keyword">new</span> Node&lt;K, V&gt;(key, value);</div><div class="line">			buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)] = tempNode;</div><div class="line">			size ++;</div><div class="line">		<span class="comment">//如果在位桶中位该置还没有被占据，则new一个Node，赋给位桶中该位置</span></div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			Node&lt;K, V&gt; temp = buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)];</div><div class="line">			<span class="keyword">while</span> (temp != <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">if</span> (temp.getKey() == key) &#123;</div><div class="line">					temp.setValue(value);</div><div class="line">					<span class="keyword">return</span>;</div><div class="line">				&#125;</div><div class="line">				temp = temp.next;</div><div class="line">			&#125;</div><div class="line">		<span class="comment">//如果已经被占据，则遍历链表，看是否存在含key的键值对</span></div><div class="line">		<span class="comment">//有则改变value值</span></div><div class="line">			Node&lt;K, V&gt; currentNode = <span class="keyword">new</span> Node&lt;K, V&gt;(key, value);</div><div class="line">			currentNode.setNext(buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)]);</div><div class="line">			buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)] = currentNode;</div><div class="line">			size ++;</div><div class="line">		<span class="comment">//没有则new一个Node,将该Node设置为链表的头结点，赋给位桶中该位置</span></div><div class="line">		<span class="comment">//按照惯性思维来说，一般这个时候新节点是放在链表尾部的</span></div><div class="line">		<span class="comment">//但是，在本代码中，节点在链表中的顺序没有任何影响</span></div><div class="line">	    <span class="comment">//因此，我们直接把新节点变成链表头节点，这样代码更加简单可依赖</span></div><div class="line">		<span class="comment">//同时，也降低了时间复杂度，因为放在链表尾部还需要一次遍历</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(K key)</span> </span>&#123;</div><div class="line">		Node&lt;K, V&gt; temp = buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)];</div><div class="line">		<span class="keyword">while</span> (temp != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">if</span> (temp.getKey() == key) &#123;</div><div class="line">				<span class="keyword">return</span> temp.getValue();</div><div class="line">			&#125;</div><div class="line">			temp = temp.next;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		<span class="comment">//get操作相对简单，遍历链表就可以了，找到key则返回对应value</span></div><div class="line">		<span class="comment">//否则返回null</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> V <span class="title">delete</span><span class="params">(K key)</span> </span>&#123;</div><div class="line">		Node&lt;K, V&gt; temp = buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)];</div><div class="line">		<span class="keyword">if</span> (temp == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (temp.getKey() == key) &#123;</div><div class="line">			V oldValue = temp.getValue();</div><div class="line">			buckets[key.hashCode() &amp; (capacity - <span class="number">1</span>)] = <span class="keyword">null</span>;</div><div class="line">			size --;</div><div class="line">			<span class="keyword">return</span> oldValue;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">while</span> (temp.next != <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">if</span> (temp.next.getKey() == key) &#123;</div><div class="line">					V oldValue = temp.getValue();</div><div class="line">					temp.next = temp.next.next;</div><div class="line">					size --;</div><div class="line">					<span class="keyword">return</span> oldValue;</div><div class="line">				&#125;</div><div class="line">				temp = temp.next;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		<span class="comment">//delete操作也相对简单，核心思想仍然是遍历链表</span></div><div class="line">        <span class="comment">//唯一值得注意的细节就是这里判断用的是temp.next而不是temp</span></div><div class="line">		<span class="comment">//这是因为要删除一个节点需要对一个节点的上一个节点进行操作</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		HashMap&lt;Integer, Integer&gt; hMap = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</div><div class="line">		hMap.put(<span class="number">22</span>, <span class="number">11</span>);</div><div class="line">		hMap.put(<span class="number">22</span>, <span class="number">10</span>);</div><div class="line">		System.out.println(hMap.get(<span class="number">22</span>));</div><div class="line">		hMap.put(<span class="number">21</span>, <span class="number">11</span>);</div><div class="line">		System.out.println(hMap.get(<span class="number">21</span>));</div><div class="line">		hMap.put(<span class="number">38</span>, <span class="number">38</span>);</div><div class="line">		System.out.println(hMap.get(<span class="number">38</span>));</div><div class="line">		hMap.delete(<span class="number">38</span>);</div><div class="line">		System.out.println(hMap.get(<span class="number">38</span>));</div><div class="line">		hMap.delete(<span class="number">22</span>);</div><div class="line">		System.out.println(hMap.get(<span class="number">22</span>));</div><div class="line">        <span class="comment">//		几个测试，都没有问题</span></div><div class="line">        <span class="comment">//		输出为:</span></div><div class="line">        <span class="comment">//		10</span></div><div class="line">        <span class="comment">//		11</span></div><div class="line">        <span class="comment">//		38</span></div><div class="line">        <span class="comment">//		null</span></div><div class="line">        <span class="comment">//		null</span></div><div class="line">        <span class="comment">//		6</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;注释部分已经将代码解释地比较清楚了。在注释[1]处，有关于java 为什么不支持泛型数组这一问题，在一些技术博客中都有了一些比较清晰的回答，在<a href="https://www.zhihu.com/question/20928981" target="_blank" rel="external">知乎：java 为什么不支持泛型数组？</a>中，也有相关的讨论可以供读者参考，简单一点回答，就是Java泛型是用擦除法（Erasure）实现的，运行时类型参数会被擦掉，而Java数组在创建的时候必须知道内部元素的类型，这一点互相矛盾了，因次Java不支持泛型数组。<br>&#160; &#160; &#160; &#160;本篇博客实现了一个简单的，无法扩容的拉链式HashMap，希望能对读者有用~</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/05/浅析JDK源码之集合框架（七）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅析JDK源码之集合框架（七）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="浅析JDK源码之集合框架（七补）" data-title="浅析JDK源码之集合框架（七补）" data-url="https://4c527.github.io/2016/12/20/浅析JDK源码之集合框架（七补）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+  </div>
+</body>
+</html>
