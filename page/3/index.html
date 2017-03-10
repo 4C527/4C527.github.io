@@ -113,7 +113,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 17.5px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 12.5px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 17.5px;">深度学习</a> <a href="/tags/链表/" style="font-size: 15px;">链表</a>
+						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 17.5px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 12.5px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 17.5px;">深度学习</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/链表/" style="font-size: 15px;">链表</a>
 					</div>
 				</section>
 				
@@ -184,6 +184,67 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-浅谈二叉树与递归（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/20/浅谈二叉树与递归（二）/" class="article-date">
+  	<time datetime="2016-09-20T02:12:01.000Z" itemprop="datePublished">2016-09-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/20/浅谈二叉树与递归（二）/">浅谈二叉树与递归（二）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2016/09/19/%E6%B5%85%E8%B0%88%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%8E%E9%80%92%E5%BD%92%EF%BC%88%E4%B8%80%EF%BC%89/">上一篇：浅谈二叉树与递归（一）</a><br><a href="https://4c527.github.io/2016/09/23/%E6%B5%85%E8%B0%88%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%8E%E9%80%92%E5%BD%92%EF%BC%88%E4%B8%89%EF%BC%89/">下一篇：浅谈二叉树与递归（三）</a><br>（Jason Cheng 原创，未经许可不可转载）     </p>
+<h1 id="前序，中序，后序的递归-非递归实现"><a href="#前序，中序，后序的递归-非递归实现" class="headerlink" title="前序，中序，后序的递归/非递归实现"></a>前序，中序，后序的递归/非递归实现</h1><p>&#160; &#160; &#160; &#160;谈到树与递归的关系，遍历树的算法是一个经典，也是各大互联网公司常考题型。<br>&#160; &#160; &#160; &#160;遍历树算法基本上分为前序，中序，后序，层序几种，本篇仅关注前三种。前三种算法都可以通过递归/非递归两种方式实现，但是从难度上来看，非递归实现三种遍历都偏难，而且易出错，递归实现遍历是一个简单靠谱的选择（但是公司面试时面试官很可能指定采用递归还是非递归）。
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tree/">Tree</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/09/20/浅谈二叉树与递归（二）/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-浅谈二叉树与递归（一）" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -594,67 +655,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/08/31/TensorFlow调研报告（二）环境配置及安装/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-TensorFlow调研报告（一）简介及横向比较" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/30/TensorFlow调研报告（一）简介及横向比较/" class="article-date">
-  	<time datetime="2016-08-30T11:06:39.000Z" itemprop="datePublished">2016-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/30/TensorFlow调研报告（一）简介及横向比较/">TensorFlow调研报告（一）简介及横向比较</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://4c527.github.io/2016/08/31/TensorFlow%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A%EF%BC%88%E4%BA%8C%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%AE%89%E8%A3%85/">下一篇：TensorFlow调研报告（二）环境配置及安装</a><br>（Jason Cheng 原创，未经许可不可转载）</p>
-<h1 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>&#160; &#160; &#160; &#160;Google Brain项目开始于 2011 年，目的是探索在科研和 Google 的产品中超大规模深度神经网络的使用。作为这个项目的早期工作，Google构建了 DistBelief ——第一代的可扩展分布式训练和推断系统。利用DistBelief，Google 进行了广泛的研究包括非监督学习、语言表示、图像分类模型和目标检测、视频分类、语音识别、序列预测、行人检测、强化学习等等。另外，超过50个Google 内部的团队和其他公司也已经和Google Brain 团队开展合作，在众多产品中部署了使用DistBelief 的深度神经网络，包括 Google Search、广告产品、语音识别系统、Google Photos、Google Maps 和街景、Google 翻译、YouTube 和很多其他的产品。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/08/30/TensorFlow调研报告（一）简介及横向比较/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
