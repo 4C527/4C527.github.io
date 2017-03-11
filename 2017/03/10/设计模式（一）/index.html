@@ -6,20 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>设计模式（一） | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-代理模式之静态代理&amp;#160; &amp;#160; &amp;#160; &amp;#160;常用的面向对象软件的设计模式共有23种，这种说法说法源自《Design Patterns: Elements of Reusable Object-Oriented Software》这一设计模式经典著作，1995年出版。22年过去了，23种设计模式中有一些逐渐">
+  <meta name="description" content="下一篇：设计模式（二）（Jason Cheng 原创，未经许可不可转载） 
+代理模式之静态代理&amp;#160; &amp;#160; &amp;#160; &amp;#160;常用的面向对象软件的设计模式共有23种，这种说法说法源自《Design Patterns: Elements of Reusable Object-Oriented Software》这一设计模式经典著作，1995年出版。22年过去了，23种设计模式中">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式（一）">
 <meta property="og:url" content="https://4c527.github.io/2017/03/10/设计模式（一）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-代理模式之静态代理&amp;#160; &amp;#160; &amp;#160; &amp;#160;常用的面向对象软件的设计模式共有23种，这种说法说法源自《Design Patterns: Elements of Reusable Object-Oriented Software》这一设计模式经典著作，1995年出版。22年过去了，23种设计模式中有一些逐渐">
+<meta property="og:description" content="下一篇：设计模式（二）（Jason Cheng 原创，未经许可不可转载） 
+代理模式之静态代理&amp;#160; &amp;#160; &amp;#160; &amp;#160;常用的面向对象软件的设计模式共有23种，这种说法说法源自《Design Patterns: Elements of Reusable Object-Oriented Software》这一设计模式经典著作，1995年出版。22年过去了，23种设计模式中">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog22/4/UML2.png">
-<meta property="og:updated_time" content="2017-03-10T09:30:07.000Z">
+<meta property="og:updated_time" content="2017-03-11T14:36:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式（一）">
-<meta name="twitter:description" content="下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-代理模式之静态代理&amp;#160; &amp;#160; &amp;#160; &amp;#160;常用的面向对象软件的设计模式共有23种，这种说法说法源自《Design Patterns: Elements of Reusable Object-Oriented Software》这一设计模式经典著作，1995年出版。22年过去了，23种设计模式中有一些逐渐">
+<meta name="twitter:description" content="下一篇：设计模式（二）（Jason Cheng 原创，未经许可不可转载） 
+代理模式之静态代理&amp;#160; &amp;#160; &amp;#160; &amp;#160;常用的面向对象软件的设计模式共有23种，这种说法说法源自《Design Patterns: Elements of Reusable Object-Oriented Software》这一设计模式经典著作，1995年出版。22年过去了，23种设计模式中">
 <meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog22/4/UML2.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
@@ -226,7 +226,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2017/02/20/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AB%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+        <p><a href="https://4c527.github.io/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89/">下一篇：设计模式（二）</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
 <h1 id="代理模式之静态代理"><a href="#代理模式之静态代理" class="headerlink" title="代理模式之静态代理"></a>代理模式之静态代理</h1><p>&#160; &#160; &#160; &#160;常用的面向对象软件的设计模式共有23种，这种说法说法源自《Design Patterns: Elements of Reusable Object-Oriented Software》这一设计模式经典著作，1995年出版。22年过去了，23种设计模式中有一些逐渐被淘汰，很少在工业界使用，而一些经典设计模式越来越辉煌，在软件开发中承担着至关重要的作用，其实正是由于设计模式的存在，软件工程规范才得以立足。在设计模式这一系列中，博主仅仅介绍其中的某几种，本篇中的代理模式就是其中一种。它在20多年之后仍然被工业界广泛使用，不管是在JDK源码还是各种著名开源框架源码以及其他语言的代码中，都能看到代理模式的身影，它是最经典的设计模式之一。<a id="more"></a><br>&#160; &#160; &#160; &#160;正文开始：）<br>&#160; &#160; &#160; &#160;打个比方来介绍代理模式。在生活中，尤其是刚毕业的学生，租房一直是个难题，有些时间充裕的人选择自己直接找房东，而更多的人目前选择房屋中介来帮自己完成租房这一任务，不直接与房东接触，这里的房屋中介就是代理。实际上，它不仅仅是一个隔离租房者和房东的中介，我们还可以借助代理来增加一些我们不方便完成的任务，比如帮我们选择合适的房源，帮我们与房东洽谈等等。这就是代理模式的用途。<br>&#160; &#160; &#160; &#160;在设计模式中，有六大原则：单一职责原则、里氏替换原则、依赖倒置原则、接口隔离原则、迪米特法则、开闭原则。这些原则的具体定义这篇博客中不再展开讨论。我们仅仅来看一下开闭原则的定义。引用百度百科中的论述：开闭原则（OCP）是面向对象设计中“可复用设计”的基石，是面向对象设计中最重要的原则之一，其它很多的设计原则都是实现开闭原则的一种手段。对于扩展是开放的，对于修改是关闭的，这意味着模块的行为是可以扩展的。当应用的需求改变时，我们可以对模块进行扩展，使其具有满足那些改变的新行为。也就是说，我们可以改变模块的功能。对模块行为进行扩展时，不必改动模块的源代码或者二进制代码。模块的二进制可执行版本，无论是可链接的库、DLL或者.EXE文件，都无需改动。<br>&#160; &#160; &#160; &#160;而代理模式，正是为开闭原则而生的一种设计模式。它的UML图如下所示：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog22/4/UML2.png" width="50%"></center><br>&#160; &#160; &#160; &#160;真正的业务功能由委托类来实现，但是代理类可以帮助实现委托类需要的一些公共服务。例如在项目开发中我们没有加入缓冲，日志这些功能，后期想加入，我们就可以使用代理来实现，而没有必要打开已经封装好的委托类。这跟开闭原则是非常契合的。<br>&#160; &#160; &#160; &#160;本篇博客中，我们先来实现静态代理，只需要三步即可实现。首先，我们需要定义业务接口，业务接口实现类，然后定义代理类，且实现业务接口；最后写一个Client来调用。<br>&#160; &#160; &#160; &#160;首先是业务接口：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> proxy;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Rent</span> </span>&#123;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">talkToLandlord</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Rent接口</span></div></pre></td></tr></table></figure></p>
 <p>&#160; &#160; &#160; &#160;业务接口实现类：    </p>
@@ -250,9 +250,18 @@
     
 <nav id="article-nav">
   
+    <a href="/2017/03/11/设计模式（二）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          设计模式（二）
+        
+      </div>
+    </a>
   
-    <a href="/2017/03/10/设计模式（二）/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">设计模式（二）</div>
+  
+    <a href="/2017/02/24/浅析JDK源码之集合框架（九）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅析JDK源码之集合框架（九）</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
