@@ -6,19 +6,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>设计模式（二） | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上一篇：设计模式（一）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-代理模式之动态代理及内部的反射机制&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代理类。那么动">
+  <meta name="description" content="上一篇：设计模式（一）下一篇：设计模式（二补）（Jason Cheng 原创，未经许可不可转载） 
+代理模式之动态代理及内部的反射机制&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式（二）">
 <meta property="og:url" content="https://4c527.github.io/2017/03/11/设计模式（二）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="上一篇：设计模式（一）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-代理模式之动态代理及内部的反射机制&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代理类。那么动">
-<meta property="og:updated_time" content="2017-03-14T01:39:55.000Z">
+<meta property="og:description" content="上一篇：设计模式（一）下一篇：设计模式（二补）（Jason Cheng 原创，未经许可不可转载） 
+代理模式之动态代理及内部的反射机制&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代">
+<meta property="og:updated_time" content="2017-03-14T07:45:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式（二）">
-<meta name="twitter:description" content="上一篇：设计模式（一）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-代理模式之动态代理及内部的反射机制&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代理类。那么动">
+<meta name="twitter:description" content="上一篇：设计模式（一）下一篇：设计模式（二补）（Jason Cheng 原创，未经许可不可转载） 
+代理模式之动态代理及内部的反射机制&amp;#160; &amp;#160; &amp;#160; &amp;#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
   
@@ -117,7 +117,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 18px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 14px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 18px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 18px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 18px;">深度学习</a> <a href="/tags/设计模式/" style="font-size: 12px;">设计模式</a> <a href="/tags/设计模式，JVM/" style="font-size: 10px;">设计模式，JVM</a> <a href="/tags/链表/" style="font-size: 16px;">链表</a>
+						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TensorFlow/" style="font-size: 17.5px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 12.5px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 17.5px;">深度学习</a> <a href="/tags/设计模式/" style="font-size: 12.5px;">设计模式</a> <a href="/tags/链表/" style="font-size: 15px;">链表</a>
 					</div>
 				</section>
 				
@@ -224,7 +224,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/">上一篇：设计模式（一）</a><br><a href="https://4c527.github.io/2017/02/20/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AB%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+        <p><a href="https://4c527.github.io/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/">上一篇：设计模式（一）</a><br><a href="https://4c527.github.io/2017/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%E8%A1%A5%EF%BC%89/">下一篇：设计模式（二补）</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
 <h1 id="代理模式之动态代理及内部的反射机制"><a href="#代理模式之动态代理及内部的反射机制" class="headerlink" title="代理模式之动态代理及内部的反射机制"></a>代理模式之动态代理及内部的反射机制</h1><p>&#160; &#160; &#160; &#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代理类。那么动态代理是如何实现的？<a id="more"></a>   </p>
 <h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>&#160; &#160; &#160; &#160;实际上，动态代理在代码实现上更加简单，因为动态代理类的字节码在程序运行时由Java的反射机制动态生成，程序员不需要手工编写它的源代码。动态代理类不仅简化了编程工作，而且提高了软件系统的可扩展性，因为Java 反射机制可以生成任意类型的动态代理类。java.lang.reflect包中的Proxy类和InvocationHandler接口提供了生成动态代理类的能力。反射机制我们在下一小节再讨论，本小节中，我们先来看看怎么实现一个动态代理的demo.<br>&#160; &#160; &#160; &#160;首先是业务接口：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> proxy;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Rent</span> </span>&#123;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">talkToLandlord</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Rent接口</span></div></pre></td></tr></table></figure></p>
 <p>&#160; &#160; &#160; &#160;业务接口实现类：    </p>
@@ -248,7 +248,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/03/11/设计模式（二补）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/03/14/设计模式（二补）/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
