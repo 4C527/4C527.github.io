@@ -113,7 +113,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 18px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 14px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 18px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 18px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 18px;">深度学习</a> <a href="/tags/设计模式/" style="font-size: 12px;">设计模式</a> <a href="/tags/链表/" style="font-size: 16px;">链表</a>
+						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/TensorFlow/" style="font-size: 18px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 14px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 18px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 18px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 18px;">深度学习</a> <a href="/tags/设计模式/" style="font-size: 12px;">设计模式</a> <a href="/tags/设计模式，JVM/" style="font-size: 10px;">设计模式，JVM</a> <a href="/tags/链表/" style="font-size: 16px;">链表</a>
 					</div>
 				</section>
 				
@@ -185,6 +185,67 @@
 
       <div class="body-wrap">
   
+    <article id="post-设计模式（二补）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/11/设计模式（二补）/" class="article-date">
+  	<time datetime="2017-03-11T14:11:21.000Z" itemprop="datePublished">2017-03-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/11/设计模式（二补）/">设计模式（二补）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/">上一篇：设计模式（二）</a><br><a href="https://4c527.github.io/2017/02/20/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AB%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+<h1 id="浅析JVM与反射"><a href="#浅析JVM与反射" class="headerlink" title="浅析JVM与反射"></a>浅析JVM与反射</h1><p>&#160; &#160; &#160; &#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然要涉及到Java虚拟机(JVM)，又会涉及到Java的各种类加载器，如果再深入下去，JVM从.class字节码将Class对象加载到内存，这又涉及到反编译的概念。所以本篇博客作为前两篇的补充，我们来浅显地分析JVM是如何实现反射的。
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式，JVM/">设计模式，JVM</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2017/03/11/设计模式（二补）/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-设计模式（二）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -212,7 +273,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><a href="https://4c527.github.io/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/">上一篇：设计模式（一）</a><br><a href="https://4c527.github.io/2017/02/20/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AB%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
-<h1 id="代理模式之动态代理及内部的反射机制"><a href="#代理模式之动态代理及内部的反射机制" class="headerlink" title="代理模式之动态代理及内部的反射机制"></a>代理模式之动态代理及内部的反射机制</h1><p>&#160; &#160; &#160; &#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代理类。那么动态代理是如何实现的呢？
+<h1 id="代理模式之动态代理及内部的反射机制"><a href="#代理模式之动态代理及内部的反射机制" class="headerlink" title="代理模式之动态代理及内部的反射机制"></a>代理模式之动态代理及内部的反射机制</h1><p>&#160; &#160; &#160; &#160;上一篇博客中我们谈到了静态代理。静态代理需要在运行之前给每一个需要代理的接口都写好代理类，这样就造成了代码的冗余，所以我们引入了动态代理的概念，通过动态代理，在运行时期动态生成业务类的代理类，而不用给每个接口写代理类。那么动态代理是如何实现的？
       
     </div>
     
@@ -594,67 +655,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/12/01/浅析JDK源码之集合框架（六）/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-浅析JDK源码之集合框架（五）" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/17/浅析JDK源码之集合框架（五）/" class="article-date">
-  	<time datetime="2016-11-17T02:06:44.000Z" itemprop="datePublished">2016-11-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/17/浅析JDK源码之集合框架（五）/">浅析JDK源码之集合框架（五）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://4c527.github.io/2016/10/24/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89/">上一篇：浅析JDK源码之集合框架（四）</a><br><a href="https://4c527.github.io/2016/12/01/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AD%EF%BC%89/">下一篇：浅析JDK源码之集合框架（六）</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
-<h1 id="LinkedList类源码分析"><a href="#LinkedList类源码分析" class="headerlink" title="LinkedList类源码分析"></a>LinkedList类源码分析</h1><p>&#160; &#160; &#160; &#160;前面我们已经分析了一个真正的Java集合类，ArrayList类，在上一篇博文的末尾，博主给ArrayList下一个不正式的定义：ArrayList本质上就是一个包装过的，可以自动扩容的，做了边界检查的，增删查找效率比较高的数组。
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JDK源码/">JDK源码</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/11/17/浅析JDK源码之集合框架（五）/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
