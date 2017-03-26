@@ -6,22 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>设计模式（二补） | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上一篇：设计模式（二）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-浅析JVM与反射&amp;#160; &amp;#160; &amp;#160; &amp;#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然要涉及到J">
+  <meta name="description" content="上一篇：设计模式（二）下一篇：设计模式（三）（Jason Cheng 原创，未经许可不可转载） 
+浅析JVM与反射&amp;#160; &amp;#160; &amp;#160; &amp;#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式（二补）">
 <meta property="og:url" content="https://4c527.github.io/2017/03/14/设计模式（二补）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="上一篇：设计模式（二）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-浅析JVM与反射&amp;#160; &amp;#160; &amp;#160; &amp;#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然要涉及到J">
+<meta property="og:description" content="上一篇：设计模式（二）下一篇：设计模式（三）（Jason Cheng 原创，未经许可不可转载） 
+浅析JVM与反射&amp;#160; &amp;#160; &amp;#160; &amp;#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog25/4/pic1_meitu_1.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog25/5/pic2_meitu_1.png">
 <meta property="og:image" content="http://ocpreuqkv.bkt.clouddn.com/blog25/3/pic3_meitu_1.png">
-<meta property="og:updated_time" content="2017-03-14T14:11:54.000Z">
+<meta property="og:updated_time" content="2017-03-26T15:19:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式（二补）">
-<meta name="twitter:description" content="上一篇：设计模式（二）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-浅析JVM与反射&amp;#160; &amp;#160; &amp;#160; &amp;#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然要涉及到J">
+<meta name="twitter:description" content="上一篇：设计模式（二）下一篇：设计模式（三）（Jason Cheng 原创，未经许可不可转载） 
+浅析JVM与反射&amp;#160; &amp;#160; &amp;#160; &amp;#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然">
 <meta name="twitter:image" content="http://ocpreuqkv.bkt.clouddn.com/blog25/4/pic1_meitu_1.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
@@ -228,7 +228,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2017/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89/">上一篇：设计模式（二）</a><br><a href="https://4c527.github.io/2017/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+        <p><a href="https://4c527.github.io/2017/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89/">上一篇：设计模式（二）</a><br><a href="https://4c527.github.io/2017/03/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%89%EF%BC%89/">下一篇：设计模式（三）</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
 <h1 id="浅析JVM与反射"><a href="#浅析JVM与反射" class="headerlink" title="浅析JVM与反射"></a>浅析JVM与反射</h1><p>&#160; &#160; &#160; &#160;上两篇博客基本把静态代理与动态代理讲的比较清楚，但是动态代理内部的反射机制却没有深入研究，仅仅是给出了反射的概念，探讨了一下反射的优缺点，并写了几个关于反射的Demo.这并不是因为反射的原理太过深奥，而是因为，要探索反射的原理，必然要涉及到Java虚拟机(JVM)，又会涉及到Java的各种类加载器，如果再深入下去，JVM从.class字节码将Class对象加载到内存，这又涉及到反编译的概念。所以本篇博客作为前两篇的补充，我们来浅显地分析JVM是如何实现反射的。<a id="more"></a> </p>
 <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>&#160; &#160; &#160; &#160;首先，我们先给出JVM模型的简要的解释。Java虚拟机：虚拟机是一种抽象化的计算机，通过在实际的计算机上仿真模拟各种计算机功能来实现的。Java虚拟机有自己完善的硬体架构，如处理器、堆栈、寄存器等，还具有相应的指令系统。JVM屏蔽了与具体操作系统平台相关的信息，使得Java程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。（引用自维基百科）<br>&#160; &#160; &#160; &#160;JVM体系结构图如下图所示：</p>
 <p><center><img src="http://ocpreuqkv.bkt.clouddn.com/blog25/4/pic1_meitu_1.png" width="50%"></center><br>&#160; &#160; &#160; &#160;接下来是一些关于Java程序运行方面的预备知识。<br>&#160; &#160; &#160; &#160;从源文件创建到程序运行，Java程序要经过两大步骤：编译：源文件由编译器编译成字节码（ByteCode）；运行：字节码由java虚拟机解释运行。在本博客中，我们不关心编译的过程，只需要关注运行过程中类加载的过程：java程序在第一步编译后形成的.class文件，是通过类加载器将字节码(即.class文件)加载入JVM的内存中的。<br>&#160; &#160; &#160; &#160;预备知识的最后一部分，我们来看看类加载器的概念与结构。<br>&#160; &#160; &#160; &#160;类装载器负责查找并装载类型信息。其实Java虚拟机有两种类装载器：系统装载器和用户自定义装载器。前者是Java虚拟机实现的一部分，后者则是Java程序的一部分。<br>&#160; &#160; &#160; &#160;系统装载器有3个：<br>&#160; &#160; &#160; &#160;启动类装载器（bootstrap class loader）：它用来加载 Java 的核心库，是用原生代码来实现的，并不继承自java.lang.ClassLoader;<br>&#160; &#160; &#160; &#160;扩展类装载器（extensions class loader）：它用来加载 Java 的扩展库。Java 虚拟机的实现会提供一个扩展库目录。该类加载器在此目录里面查找并加载 Java 类；<br>&#160; &#160; &#160; &#160;应用程序类装载器（application class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类。一般来说，Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它。<br>&#160; &#160; &#160; &#160;除了系统提供的类装载器以外，开发人员可以通过继承 java.lang.ClassLoader类的方式实现自己的类装载器（custom class loader），以满足一些特殊的需求。<br>&#160; &#160; &#160; &#160;这几种类加载器的层次关系如下图所示：      </p>
