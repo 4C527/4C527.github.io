@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>设计模式（四） | Jason Cheng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇：设计模式（二补）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+最简单的设计模式：单例模式&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客介绍设计模式中最简单的一种：单例模式，不过虽然简单，但它仍然在工业界发挥着巨大的作用，这是一种小而美的设计模式。单例模式的作用很简单，它的目的就是确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例。在计算机系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式（四）">
+<meta property="og:url" content="https://4c527.github.io/2017/03/28/设计模式（四）/index.html">
+<meta property="og:site_name" content="Jason Cheng的博客">
+<meta property="og:description" content="上一篇：设计模式（二补）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+最简单的设计模式：单例模式&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客介绍设计模式中最简单的一种：单例模式，不过虽然简单，但它仍然在工业界发挥着巨大的作用，这是一种小而美的设计模式。单例模式的作用很简单，它的目的就是确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例。在计算机系统">
+<meta property="og:updated_time" content="2017-03-29T10:46:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式（四）">
+<meta name="twitter:description" content="上一篇：设计模式（二补）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
+最简单的设计模式：单例模式&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客介绍设计模式中最简单的一种：单例模式，不过虽然简单，但它仍然在工业界发挥着巨大的作用，这是一种小而美的设计模式。单例模式的作用很简单，它的目的就是确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例。在计算机系统">
+  
+    <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ocpreuqkv.bkt.clouddn.com/logosuolue.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jason Cheng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Witness me.Witness me.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/深度学习">深度学习</a></li>
+				        
+							<li><a href="/tags/leetcode">leetcode</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/JDK源码/" style="font-size: 20px;">JDK源码</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TensorFlow/" style="font-size: 18px;">TensorFlow</a> <a href="/tags/Tree/" style="font-size: 12px;">Tree</a> <a href="/tags/leetcode/" style="font-size: 18px;">leetcode</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/数据结构/" style="font-size: 18px;">数据结构</a> <a href="/tags/深度学习/" style="font-size: 18px;">深度学习</a> <a href="/tags/设计模式/" style="font-size: 16px;">设计模式</a> <a href="/tags/链表/" style="font-size: 14px;">链表</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">Witness me.Witness me.</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Jason Cheng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jason Cheng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Witness me.Witness me.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/深度学习">深度学习</a></li>
+		        
+					<li><a href="/tags/leetcode">leetcode</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-设计模式（四）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/28/设计模式（四）/" class="article-date">
+  	<time datetime="2017-03-28T02:50:33.000Z" itemprop="datePublished">2017-03-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      设计模式（四）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://4c527.github.io/2017/03/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%E8%A1%A5%EF%BC%89/">上一篇：设计模式（二补）</a><br><a href="https://4c527.github.io/2017/02/20/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AB%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+<h1 id="最简单的设计模式：单例模式"><a href="#最简单的设计模式：单例模式" class="headerlink" title="最简单的设计模式：单例模式"></a>最简单的设计模式：单例模式</h1><p>&#160; &#160; &#160; &#160;本篇博客介绍设计模式中最简单的一种：单例模式，不过虽然简单，但它仍然在工业界发挥着巨大的作用，这是一种小而美的设计模式。单例模式的作用很简单，它的目的就是确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例。在计算机系统中，线程池、缓存、日志对象、对话框、打印机、显卡的驱动程序等对象常被设计成单例。举个栗子，每台计算机可以有若干个打印机，但只能有一个Printer Spooler，以避免两个打印作业同时输出到打印机中。总之，选择单例模式就是为了避免出现不一致状态，这在软件开发中有广泛的用处。<a id="more"></a><br>&#160; &#160; &#160; &#160;单例模式有以下特点：<br>&#160; &#160; &#160; &#160;1、单例类只能有一个实例。<br>&#160; &#160; &#160; &#160;2、单例类必须自己创建自己的唯一实例。<br>&#160; &#160; &#160; &#160;3、单例类必须给所有其他对象提供这一实例。<br>&#160; &#160; &#160; &#160;单例模式有多种写法，本篇博客仅介绍其中的几种，首先是2个基本的，非线程安全的写法：饿汉式、饱汉式（又称懒加载式）；除了这2种基本的写法之外，再介绍2种线程安全的写法。<br>&#160; &#160; &#160; &#160;首先是饿汉式单例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.csx.singleton;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySingleton</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">MySingleton</span><span class="params">()</span> </span>&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//构造方法定义为私有</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> MySingleton instance = <span class="keyword">new</span> MySingleton();</div><div class="line">	<span class="comment">//自身的实例对象设置为一个属性,并加上Static和final修饰符</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//一个public方法来返回这个实例</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//饿汉式单例模式</span></div></pre></td></tr></table></figure></p>
+<p>&#160; &#160; &#160; &#160;以上就是饿汉式单例模式的写法。它的优点是：写起来比较简单，而且不存在多线程同步问题；缺点是：当类SingletonTest被加载的时候，会初始化static的instance，静态变量被创建并分配内存空间，从这以后，这个static的instance对象便一直占着这段内存，即便程序中还没有用到这个实例，因此这种写法相对来说比较消耗内存。<br>&#160; &#160; &#160; &#160;接下来是饱汉式单例（懒加载式单例）：    </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.csx.singleton;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySingleton</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">MySingleton</span><span class="params">()</span> </span>&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> MySingleton instance;</div><div class="line">	<span class="comment">//与上面代码不同的是，这里的实例对象不进行初始化</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(instance == <span class="keyword">null</span>) &#123;</div><div class="line">			instance = <span class="keyword">new</span> MySingleton();</div><div class="line">		&#125;</div><div class="line">	<span class="comment">//调用时再初始化instance</span></div><div class="line">		<span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//饱汉式单例模式</span></div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;以上是饱汉式单例模式的写法，它的优点是：写起来比较简单，而且相对于饿汉式单例模式，当类SingletonTest被加载的时候，静态变量static的instance未被创建并分配内存空间，当getInstance方法第一次被调用时，初始化instance变量，并分配内存，因此在节约了内存；但是它的缺点是并发环境下很可能出现多个SingletonTest实例，即不是线程安全的。<br>&#160; &#160; &#160; &#160;为了实现线程安全的单例，我们可以在饱汉式单例模式的基础上进行改进：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.csx.singleton;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySingleton</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">MySingleton</span><span class="params">()</span> </span>&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> MySingleton instance;</div><div class="line">	<span class="comment">//与上面代码不同的是，这里的实例对象不进行初始化</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> MySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(instance == <span class="keyword">null</span>) &#123;</div><div class="line">			instance = <span class="keyword">new</span> MySingleton();</div><div class="line">		&#125;</div><div class="line">	<span class="comment">//调用时再初始化instance</span></div><div class="line">	<span class="comment">//并且使用synchronized 避免多线程访问时，可能造成重的复初始化问题</span></div><div class="line">		<span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//线程安全的饱汉式单例模式</span></div></pre></td></tr></table></figure>
+<p>&#160; &#160; &#160; &#160;以上是对饱汉式单例模式的的简单优化，优点是：使用synchronized关键字避免多线程访问时，出现多个SingletonTest实例。缺点是：当同步方法频繁调用时，效率略低，因为这里的synchronized锁是粗粒度的。<br>&#160; &#160; &#160; &#160;最后我们给出一种较优的线程安全的单例模式写法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.csx.singleton;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySingleton</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">MySingleton</span><span class="params">()</span> </span>&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> MySingleton instance;</div><div class="line">	<span class="comment">//定义一个静态私有变量(不初始化，不使用final关键字，而是使用volatile</span></div><div class="line">	<span class="comment">//避免了instance初始化阶段其他变量属性还没赋值完时，被另外线程调用</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(instance == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">synchronized</span> (MySingleton.class) &#123;</div><div class="line">				instance = <span class="keyword">new</span> MySingleton();</div><div class="line">			&#125;	</div><div class="line">			<span class="comment">//同步代码块，而不是对整个函数加synchronized </span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//一种较优的线程安全的单例模式</span></div></pre></td></tr></table></figure></p>
+<p>&#160; &#160; &#160; &#160;以上就是本片博客中单例模式的最佳实现。它在代码块上加上细粒度的锁，既保证了线程安全，效率上也比上一种写法高，并且保证了多线程操作的原子性。<br>&#160; &#160; &#160; &#160;本篇博客中我们给出了4种单例模式的写法，相信大家对单例模式都有了一定的了解。但是，我们可以看到，所有这些写法，都是建立在单例模式类的构造函数被设定为private的基础上，那么，我们可不可以通过某种方式，调用它的这个private构造函数来实例化它？其中是可以的，反射就可以做到这一点，此时基本上会使所有的Java单例实现失效。下一篇博客，我们就来用反射机制破坏单例。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/21/设计模式（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设计模式（三）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="设计模式（四）" data-title="设计模式（四）" data-url="https://4c527.github.io/2017/03/28/设计模式（四）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"4c527"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Jason Cheng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: ''
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+  </div>
+</body>
+</html>
