@@ -6,19 +6,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>设计模式（三） | Jason Cheng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上一篇：设计模式（二补）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-简单工厂，工厂与抽象工厂&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客继反射模式之后，再来谈一谈另一种常见的设计模式，工厂模式。这种设计模式在软件开发过程中也比较常见，而且在一个著名的Web端开源框架Spring中（相信做过Java Web端开发工作的程序猿都听过Spring的鼎鼎大名），正是">
+  <meta name="description" content="上一篇：设计模式（二补）下一篇：设计模式（四）（Jason Cheng 原创，未经许可不可转载） 
+简单工厂，工厂与抽象工厂&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客继反射模式之后，再来谈一谈另一种常见的设计模式，工厂模式。这种设计模式在软件开发过程中也比较常见，而且在一个著名的Web端开源框架Spring中（相信做过Java Web端开发工作的程序猿都听过Spring的鼎鼎大">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式（三）">
 <meta property="og:url" content="https://4c527.github.io/2017/03/21/设计模式（三）/index.html">
 <meta property="og:site_name" content="Jason Cheng的博客">
-<meta property="og:description" content="上一篇：设计模式（二补）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-简单工厂，工厂与抽象工厂&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客继反射模式之后，再来谈一谈另一种常见的设计模式，工厂模式。这种设计模式在软件开发过程中也比较常见，而且在一个著名的Web端开源框架Spring中（相信做过Java Web端开发工作的程序猿都听过Spring的鼎鼎大名），正是">
-<meta property="og:updated_time" content="2017-03-27T02:42:41.000Z">
+<meta property="og:description" content="上一篇：设计模式（二补）下一篇：设计模式（四）（Jason Cheng 原创，未经许可不可转载） 
+简单工厂，工厂与抽象工厂&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客继反射模式之后，再来谈一谈另一种常见的设计模式，工厂模式。这种设计模式在软件开发过程中也比较常见，而且在一个著名的Web端开源框架Spring中（相信做过Java Web端开发工作的程序猿都听过Spring的鼎鼎大">
+<meta property="og:updated_time" content="2017-03-29T10:49:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式（三）">
-<meta name="twitter:description" content="上一篇：设计模式（二补）下一篇：待定（Jason Cheng 原创，未经许可不可转载） 
-简单工厂，工厂与抽象工厂&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客继反射模式之后，再来谈一谈另一种常见的设计模式，工厂模式。这种设计模式在软件开发过程中也比较常见，而且在一个著名的Web端开源框架Spring中（相信做过Java Web端开发工作的程序猿都听过Spring的鼎鼎大名），正是">
+<meta name="twitter:description" content="上一篇：设计模式（二补）下一篇：设计模式（四）（Jason Cheng 原创，未经许可不可转载） 
+简单工厂，工厂与抽象工厂&amp;#160; &amp;#160; &amp;#160; &amp;#160;本篇博客继反射模式之后，再来谈一谈另一种常见的设计模式，工厂模式。这种设计模式在软件开发过程中也比较常见，而且在一个著名的Web端开源框架Spring中（相信做过Java Web端开发工作的程序猿都听过Spring的鼎鼎大">
   
     <link rel="alternative" href="/atom.xml" title="Jason Cheng的博客" type="application/atom+xml">
   
@@ -224,7 +224,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://4c527.github.io/2017/03/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%E8%A1%A5%EF%BC%89/">上一篇：设计模式（二补）</a><br><a href="https://4c527.github.io/2017/02/20/%E6%B5%85%E6%9E%90JDK%E6%BA%90%E7%A0%81%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E5%85%AB%EF%BC%89/">下一篇：待定</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
+        <p><a href="https://4c527.github.io/2017/03/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%E8%A1%A5%EF%BC%89/">上一篇：设计模式（二补）</a><br><a href="https://4c527.github.io/2017/03/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E5%9B%9B%EF%BC%89/">下一篇：设计模式（四）</a><br>（Jason Cheng 原创，未经许可不可转载） </p>
 <h1 id="简单工厂，工厂与抽象工厂"><a href="#简单工厂，工厂与抽象工厂" class="headerlink" title="简单工厂，工厂与抽象工厂"></a>简单工厂，工厂与抽象工厂</h1><p>&#160; &#160; &#160; &#160;本篇博客继反射模式之后，再来谈一谈另一种常见的设计模式，工厂模式。这种设计模式在软件开发过程中也比较常见，而且在一个著名的Web端开源框架Spring中（相信做过Java Web端开发工作的程序猿都听过Spring的鼎鼎大名），正是工厂模式+反射构成了它的灵魂。本篇博客按照常见的分类，将工厂模式分为简单工厂模式，工厂模式和抽象工厂模式这三类，这三种模式从上到下逐步抽象，并且更具一般性，还有一种分类法，就是将简单工厂模式看为工厂方法模式的一种特例，两个归为一类。<a id="more"></a>     </p>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>&#160; &#160; &#160; &#160;引言部分，我们打个比方来介绍几种工厂模式，先从历史上的工业革命说起吧。工业革命开始于十八世纪六十年代，发源于英格兰，完成了以机器取代人力，以工厂化生产取代个体手工生产的任务，是一场生产与科技革命。资本主义生产正是由此开始进入了从工场手工业向机器大工业过渡的阶段。而工厂模式的出现，也为软件工程带来了工业革命。<br>&#160; &#160; &#160; &#160;在工业革命出现之前（不使用工厂模式），如果用户需要造一辆车，那么用户得自己拿上材料和工具自己造，显然这对用户的难度不小，造出来的车也千奇百怪。<br>&#160; &#160; &#160; &#160;而在工业革命时期（简单工厂暂露头角），车厂出现了，现在的车厂还很简单，它只能生产2种车，三轮马车和汽车，用户只需要告诉它，需要哪一种，车厂就会按规范造一辆车给用户，显然，车厂造的同一类车都是统一规格，这比用户自己造有了不小的进步。<br>&#160; &#160; &#160; &#160;到了工业革命后期（工厂模式出现），车厂的业务规模越做越大，买车的用户也越来越多，一个工厂已经不能满足用户的需求，于是这家工厂开了两家分厂，一家专门造三轮马车，一家专门造汽车，用户提交需求给这家工厂后，由具体的分厂来进行造车的任务。<br>&#160; &#160; &#160; &#160;到了现代（抽象工厂出现），随着科技的发展，车都开始配备空调，于是车厂也开始造空调，用户只需要告诉车厂需要空调车，车厂就会造好汽车，配备好空调，而不用用户分别买好车和空调自己安装。<br>&#160; &#160; &#160; &#160;经过以上引言，相信读者都可以大概理解工厂模式的美妙之处，正文部分，我们就用引言中造车的例子来写几个Demo，看看工厂模式是如何工作的。正文开始：）     </p>
 <h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h2><p>&#160; &#160; &#160; &#160;客户需要知道怎么去创建一种车，客户和车就紧密耦合在一起了（引言中提到的工业革命出现前）。现在是一个简单的例子，用户自己创建三轮马车与汽车：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> Factory;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OldCunstomer</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Carriage aCarri = <span class="keyword">new</span> Carriage();</div><div class="line">		Car aCar = <span class="keyword">new</span> Car();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Carriage</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Carriage</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"A carriage has been created."</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"A car has been created."</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
